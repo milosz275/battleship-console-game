@@ -15,7 +15,7 @@ void BasePlayer::print_board(std::ostream& os) // todo: iomanip
 		throw Exception("Board is empty");
 	for_each(board->begin(), board->end(), [&os, j = 0](std::vector<Square>& v) mutable
 		{
-			os << std::endl << ++j << " \t| ";
+			os << std::endl << ++j << " \t|";
 			copy(v.begin(), v.end(), std::ostream_iterator<Square>(os, " |"));
 		});
 	os << std::endl;
@@ -23,10 +23,12 @@ void BasePlayer::print_board(std::ostream& os) // todo: iomanip
 
 void BasePlayer::print_board_discreetly(std::ostream& os) // todo: iomanip
 {
-
+	os << "\t ";
+	for (char c = 'A'; c < 'A' + board_size; ++c)
+		os << c << "  ";
 	for_each(board->begin(), board->end(), [&os, j = 0](std::vector<Square>& v) mutable
 		{
-			os << std::endl << ++j << "\t| ";
+			os << std::endl << ++j << "\t|";
 			for_each(v.begin(), v.end(), [&os](Square& s)
 				{
 					if (s.check_if_hit())

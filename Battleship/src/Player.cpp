@@ -70,6 +70,7 @@ void Player::create_boats_populate_manually(void)
 
 bool Player::move(BasePlayer& opponent)
 {
+	moves++;
 	while (combo)
 	{
 		std::cout << "Your board:" << std::endl;
@@ -107,6 +108,7 @@ bool Player::move(BasePlayer& opponent)
 			x = tmp - 1;
 
 			// getting second coordinate
+			// todo: repair 10 field. for example A10
 			char second_sign = coordinates[1];
 			tmp = second_sign - '0';
 			if ((coordinates.size() == 3 && second_sign != '1') || (coordinates.size() == 2 && (tmp < 1 || tmp > 10)))
@@ -130,15 +132,18 @@ bool Player::move(BasePlayer& opponent)
 		// check and hit
 		if ((*opponent.getBoard())[y][x].check_if_contains_ship())
 		{
+			// hit
 			std::cout << "hit!" << std::endl;
 			Ship* returned_ship = (*opponent.getBoard())[y][x].getShip();
 			opponent.hit_ship(returned_ship);
 
+			// sunken ship
 			if (returned_ship->getHits() == returned_ship->getSize())
 			{
 				std::cout << returned_ship->getName() << " was sunken!" << std::endl;
-				//++(*this);
 				this->operator++();
+
+				// end of the game
 				if (getKills() == 5)
 				{
 					std::cout << PlayerName << " won!" << std::endl;

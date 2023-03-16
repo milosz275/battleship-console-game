@@ -17,20 +17,20 @@ namespace Battleship
 {
 	class Game
 	{
-
+		// flag indicating if the game is finished
 		bool finishedGame;
-
+		// pointer to the first player
 		BasePlayer* player_1;
-
+		// pointer to the second player
 		BasePlayer* player_2;
 	public:
-
+		// creates game, calls the create_players method
 		Game();
-
+		// deletes players
 		~Game();
-
+		// creates players and populates boards belonging to the players
 		void create_players(void);
-
+		// main game loop
 		void play(void);
 	};
 }

@@ -21,10 +21,12 @@ void Square::deleteShip(void) { delete ship; }
 	
 std::ostream& operator<<(std::ostream& os, const Square& S)
 {
-	if (S.ship == NULL)
-		return os << "-";
-	else if (S.isHit)
+	if (S.isHit && S.ship != NULL)
 		return os << "X";
+	else if (S.isHit)
+		return os << "/";
+	else if (S.ship == NULL)
+		return os << "-";
 	else
 		return os << "O";
 }

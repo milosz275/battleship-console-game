@@ -1,6 +1,9 @@
 #include "BasePlayer.h"
 
-BasePlayer::BasePlayer(std::string n) : board(NULL), PlayerName(n), combo(true), kills(0), ShipList(NULL) { create_board(); }
+// coordinates are switched due to vector of vectors characteristics
+// todo: rotate board
+
+BasePlayer::BasePlayer(std::string n) : board(NULL), PlayerName(n), combo(true), kills(0), ShipList(NULL), moves(0) { create_board(); }
 
 void BasePlayer::create_board(void)
 {
@@ -13,6 +16,9 @@ void BasePlayer::print_board(std::ostream& os) // todo: iomanip
 {
 	if (board == NULL)
 		throw Exception("Board is empty");
+	os << "\t ";
+	for (char c = 'A'; c < 'A' + board_size; ++c)
+		os << c << "  ";
 	for_each(board->begin(), board->end(), [&os, j = 0](std::vector<Square>& v) mutable
 		{
 			os << std::endl << ++j << " \t|";
@@ -23,6 +29,8 @@ void BasePlayer::print_board(std::ostream& os) // todo: iomanip
 
 void BasePlayer::print_board_discreetly(std::ostream& os) // todo: iomanip
 {
+	if (board == NULL)
+		throw Exception("Board is empty");
 	os << "\t ";
 	for (char c = 'A'; c < 'A' + board_size; ++c)
 		os << c << "  ";
@@ -31,8 +39,10 @@ void BasePlayer::print_board_discreetly(std::ostream& os) // todo: iomanip
 			os << std::endl << ++j << "\t|";
 			for_each(v.begin(), v.end(), [&os](Square& s)
 				{
-					if (s.check_if_hit())
+					if (s.check_if_hit() && s.check_if_contains_ship())
 						os << "X";
+					else if (s.check_if_hit())
+						os << "/";
 					else
 						os << "-"; os << " |";
 				});
@@ -54,6 +64,7 @@ void BasePlayer::print_ship(std::ostream& os)
 	if (ShipList == NULL)
 		throw Exception("Ship list is empty");
 	copy(ShipList->begin(), ShipList->end(), std::ostream_iterator<Ship*>(os << "shiplist" << std::endl << " |", " |"));
+	std::cout << std::endl;
 }
 
 void BasePlayer::hit_ship(Ship* s)

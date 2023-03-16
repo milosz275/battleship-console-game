@@ -8,8 +8,9 @@ class Exception
 	// the error message
 	std::string error;
 public:
-	// initialised the error with its message
+	// initialises the error with its message
 	Exception(std::string e);
+	// prints the exception to the given stream
 	friend std::ostream& operator<<(std::ostream& os, const Exception& e);
 };
 

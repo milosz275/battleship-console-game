@@ -1,8 +1,9 @@
 #include "Game.h"
+// todo in final version: system("cls") to separate turns
 
 namespace Battleship
 {
-	Game::Game() : finishedGame(false), player_1(NULL), player_2(NULL) { create_players(); play(); };
+	Game::Game() : finishedGame(false), player_1(NULL), player_2(NULL) { srand((unsigned)time(NULL)); create_players(); };
 
 	Game::~Game() {};
 

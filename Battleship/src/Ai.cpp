@@ -1,6 +1,6 @@
 #include "Ai.h"
 
-Ai::Ai() : BasePlayer("Computer"), targeted(false), x_prev(-1), y_prev(-1), x_prev_prev(-1), y_prev_prev(-1), x_first(-1), y_first(-1), x_second(-1), y_second(-1), x_next(-1), y_next(-1), hit_in_firing(0) {}
+Ai::Ai() : BasePlayer("Computer"), targeted(false), x_prev(-1), y_prev(-1), x_first(-1), y_first(-1), x_second(-1), y_second(-1), hit_in_firing(0) {}
 
 void Ai::populate_board(void)
 {
@@ -70,7 +70,7 @@ bool Ai::move(BasePlayer& opponent)
 						}
 						else
 						{
-							if (!(y_second - 1 <= 0) && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
+							if (y_second - 1 >= 0 && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
 							{
 								found = true;
 								x = x_first;
@@ -79,7 +79,7 @@ bool Ai::move(BasePlayer& opponent)
 						}
 						if (!found)
 						{
-							if (!(y_first - 1 <= 0) && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
+							if (y_first - 1 >= 0 && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
 							{
 								x = x_first;
 								y = y_first - 1;
@@ -102,7 +102,7 @@ bool Ai::move(BasePlayer& opponent)
 						}
 						else
 						{
-							if (!(x_second - 1 <= 0) && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
+							if (x_second - 1 >= 0 && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
 							{
 								found = true;
 								x = x_second - 1;
@@ -111,7 +111,7 @@ bool Ai::move(BasePlayer& opponent)
 						}
 						if (!found)
 						{
-							if (!(x_first - 1 <= 0) && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
+							if (x_first - 1 >= 0 && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
 							{
 								x = x_first - 1;
 								y = y_first;
@@ -138,7 +138,7 @@ bool Ai::move(BasePlayer& opponent)
 									x = x_first;
 									y = y_prev + 1;
 								}
-								else if (!(y_first - 1 <= 0) && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
+								else if (y_first - 1 >= 0 && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
 								{
 									found = true;
 									x = x_first;
@@ -149,7 +149,7 @@ bool Ai::move(BasePlayer& opponent)
 							}
 							else // y_prev < y_second (has changed direction)
 							{
-								if (!(y_prev - 1 <= 0) && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
+								if (y_prev - 1 >= 0 && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
 								{
 									found = true;
 									x = x_first;
@@ -163,7 +163,7 @@ bool Ai::move(BasePlayer& opponent)
 						{
 							if (y_prev < y_second)
 							{
-								if (!(y_prev - 1 <= 0) && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
+								if (y_prev - 1 >= 0 && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
 								{
 									found = true;
 									x = x_first;
@@ -180,7 +180,7 @@ bool Ai::move(BasePlayer& opponent)
 							}
 							else // y_prev > y_second (has changed direction)
 							{
-								if (!(y_prev + 1 <= 0) && !((*opponent.getBoard())[y_prev + 1][x_first].check_if_hit()))
+								if (y_prev + 1 >= 0 && !((*opponent.getBoard())[y_prev + 1][x_first].check_if_hit()))
 								{
 									found = true;
 									x = x_first;
@@ -190,7 +190,7 @@ bool Ai::move(BasePlayer& opponent)
 									throw Exception("Targeting error: 127");
 							}
 
-							if (!(y_second - 1 <= 0) && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
+							if (y_second - 1 >= 0 && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
 							{
 								found = true;
 								x = x_first;
@@ -211,7 +211,7 @@ bool Ai::move(BasePlayer& opponent)
 									x = x_prev + 1;
 									y = y_first;
 								}
-								else if (!(x_first - 1 <= 0) && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
+								else if (x_first - 1 >= 0 && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
 								{
 									found = true;
 									x = x_first - 1;
@@ -222,7 +222,7 @@ bool Ai::move(BasePlayer& opponent)
 							}
 							else // y_prev < y_second (has changed direction)
 							{
-								if (!(x_prev - 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
+								if (x_prev - 1 >= 0 && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
 								{
 									found = true;
 									x = x_prev - 1;
@@ -236,7 +236,7 @@ bool Ai::move(BasePlayer& opponent)
 						{
 							if (x_prev < x_second)
 							{
-								if (!(x_prev - 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
+								if (x_prev - 1 >= 0 && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
 								{
 									found = true;
 									x = x_prev - 1;
@@ -253,7 +253,7 @@ bool Ai::move(BasePlayer& opponent)
 							}
 							else // y_prev > y_second (has changed direction)
 							{
-								if (!(x_prev + 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev + 1].check_if_hit()))
+								if (x_prev + 1 >= 0 && !((*opponent.getBoard())[y_first][x_prev + 1].check_if_hit()))
 								{
 									found = true;
 									x = x_prev + 1;
@@ -263,7 +263,7 @@ bool Ai::move(BasePlayer& opponent)
 									throw Exception("Targeting error: 645");
 							}
 
-							if (!(x_second - 1 <= 0) && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
+							if (x_second - 1 >= 0 && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
 							{
 								found = true;
 								x = x_second - 1;
@@ -275,11 +275,7 @@ bool Ai::move(BasePlayer& opponent)
 						throw Exception("Targeting error: 299");
 				}
 				else // hit in firing > 2
-				{
-					// tmp
-					x = rand() % 10;
-					y = rand() % 10;
-				}
+					throw Exception("Targeting error: 236");
 			}
 			else // random hit, not targeted
 			{
@@ -336,8 +332,8 @@ bool Ai::move(BasePlayer& opponent)
 				y_first = -1;
 				x_second = -1;
 				y_second = -1;
-				x_next = -1;
-				y_next = -1;
+				x_prev = -1;
+				y_prev = -1;
 
 				// end of the game
 				if (getKills() == 5)
@@ -352,8 +348,6 @@ bool Ai::move(BasePlayer& opponent)
 		else // miss
 		{
 			std::cout << "miss!" << std::endl;
-			
-
 			combo = false;
 			opponent.setCombo();
 		}

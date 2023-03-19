@@ -14,10 +14,6 @@ class Ai : public BasePlayer
 		int x_prev;
 		// y coordinate of previous hit
 		int y_prev;
-		// x coordinate of second previous hit
-		int x_prev_prev;
-		// y coordinate of second previous hit
-		int y_prev_prev;
 		// x coordinate of first hit in given targeting
 		int x_first;
 		// y coordinate of first hit in given targeting
@@ -26,10 +22,6 @@ class Ai : public BasePlayer
 		int x_second;
 		// y coordinate of second hit in given targeting
 		int y_second;
-		// x coordinate of next scheduled hit in given targeting
-		int x_next;
-		// y coordinate of next scheduled hit in given targeting
-		int y_next;
 	public:
 		// creates a bot
 		Ai();

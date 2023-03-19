@@ -1,6 +1,6 @@
 #include "Ai.h"
 
-Ai::Ai() : BasePlayer("Computer"), targeted(false), x_prev(-1), y_prev(-1), x_prev_prev(-1), y_prev_prev(-1), x_first(-1), y_first(-1) {}
+Ai::Ai() : BasePlayer("Computer"), targeted(false), x_prev(-1), y_prev(-1), x_prev_prev(-1), y_prev_prev(-1), x_first(-1), y_first(-1), x_second(-1), y_second(-1), x_next(-1), y_next(-1), hit_in_firing(0) {}
 
 void Ai::populate_board(void)
 {
@@ -29,76 +29,264 @@ bool Ai::move(BasePlayer& opponent)
 			// coordinates
 			if (targeted)
 			{
-				// second hit
-				if (x_prev_prev == -1 && y_prev_prev == -1)
+				if (hit_in_firing == 1) // first was hit, now hitting second
 				{
-					if (!((*opponent.getBoard())[y_prev + 1][x_prev].check_if_hit()))
+					if (!(y_first + 1 >= 10) && !((*opponent.getBoard())[y_first + 1][x_first].check_if_hit()))
 					{
-						x = x_prev;
-						y = y_prev + 1;
+						x = x_first;
+						y = y_first + 1;
 					}
-					else if (!((*opponent.getBoard())[y_prev - 1][x_prev].check_if_hit()))
+					else if (!(y_first - 1 <= -1) && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
 					{
-						x = x_prev;
-						y = y_prev - 1;
+						x = x_first;
+						y = y_first - 1;
 					}
-					else if (!((*opponent.getBoard())[y_prev][x_prev + 1].check_if_hit()))
+					else if (!(x_first + 1 >= 10) && !((*opponent.getBoard())[y_first][x_first + 1].check_if_hit()))
 					{
-						x = x_prev + 1;
-						y = y_prev;
+						x = x_first + 1;
+						y = y_first;
 					}
-					else if (!((*opponent.getBoard())[y_prev][x_prev - 1].check_if_hit()))
+					else if (!(x_first - 1 <= -1) && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
 					{
-						x = x_prev - 1;
-						y = y_prev;
+						x = x_first - 1;
+						y = y_first;
 					}
 					else
-						throw Exception("Error while Ai was taking a shot: wrong coordinates of second hit");
+						throw Exception("Targeting error: 231");
 				}
-				else // above the second hit
+				else if (hit_in_firing == 2) // second was hit, now hitting third
 				{
-					if (x_prev == x_prev_prev)
+					if (x_first == x_second) // vertically
 					{
-						if (y_prev > y_prev_prev && !((*opponent.getBoard())[y_prev + 1][x_prev].check_if_hit()))
+						bool found = false;
+						if (y_second > y_first)
 						{
-							x = x_prev;
-							y = y_prev + 1;
-						}
-						else if (y_prev < y_prev_prev && !((*opponent.getBoard())[y_prev - 1][x_prev].check_if_hit()))
-						{
-							x = x_prev;
-							y = y_prev - 1;
+							if (!(y_second + 1 >= board_size) && !((*opponent.getBoard())[y_second + 1][x_first].check_if_hit()))
+							{
+								found = true;
+								x = x_first;
+								y = y_second + 1;
+							}
 						}
 						else
-							throw Exception("Error while Ai was taking a shot: wrong coordinates of another hit (x_prev == x_prev_prev)");
+						{
+							if (!(y_second - 1 <= 0) && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
+							{
+								found = true;
+								x = x_first;
+								y = y_second - 1;
+							}
+						}
+						if (!found)
+						{
+							if (!(y_first - 1 <= 0) && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
+							{
+								x = x_first;
+								y = y_first - 1;
+							}
+							else
+								throw Exception("Targeting error: 287");
+						}
 					}
-					else if (y_prev == y_prev_prev)
+					else if (y_first == y_second) // horizontally
 					{
-						if (x_prev > x_prev_prev && !((*opponent.getBoard())[y_prev][x_prev + 1].check_if_hit()))
+						bool found = false;
+						if (x_second > x_first)
 						{
-							x = x_prev + 1;
-							y = y_prev;
+							if (!(x_second + 1 >= board_size) && !((*opponent.getBoard())[y_first][x_second + 1].check_if_hit()))
+							{
+								found = true;
+								x = x_second + 1;
+								y = y_first;
+							}
 						}
-						else if (x_prev < x_prev_prev && !((*opponent.getBoard())[y_prev][x_prev - 1].check_if_hit()))
+						else
 						{
-							x = x_prev - 1;
-							y = y_prev;
+							if (!(x_second - 1 <= 0) && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
+							{
+								found = true;
+								x = x_second - 1;
+								y = y_first;
+							}
 						}
-						else 
-							throw Exception("Error while Ai was taking a shot: wrong coordinates of another hit (y_prev == y_prev_prev)");
+						if (!found)
+						{
+							if (!(x_first - 1 <= 0) && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
+							{
+								x = x_first - 1;
+								y = y_first;
+							}
+							else
+								throw Exception("Targeting error: 323");
+						}
 					}
 					else
-						throw Exception("Error while Ai was taking a shot: wrong coordinates above the second hit");
+						throw Exception("Targeting error: 299");
+				}
+				else if (hit_in_firing >= 3)
+				{
+					if (x_first == x_second) // vertically
+					{
+						bool found = false;
+						if (y_second > y_first)
+						{
+							if (y_prev > y_second)
+							{
+								if (!(y_prev + 1 >= board_size) && !((*opponent.getBoard())[y_prev + 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_prev + 1;
+								}
+								else if (!(y_first - 1 <= 0) && !((*opponent.getBoard())[y_first - 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_first - 1;
+								}
+								else
+									throw Exception("Targeting error: 325");
+							}
+							else // y_prev < y_second (has changed direction)
+							{
+								if (!(y_prev - 1 <= 0) && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_prev - 1;
+								}
+								else
+									throw Exception("Targeting error: 455");
+							}
+						}
+						else // y_second < y_first (downwards)
+						{
+							if (y_prev < y_second)
+							{
+								if (!(y_prev - 1 <= 0) && !((*opponent.getBoard())[y_prev - 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_prev - 1;
+								}
+								else if (!(y_first + 1 >= board_size) && !((*opponent.getBoard())[y_first + 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_first + 1;
+								}
+								else
+									throw Exception("Targeting error: 125");
+							}
+							else // y_prev > y_second (has changed direction)
+							{
+								if (!(y_prev + 1 <= 0) && !((*opponent.getBoard())[y_prev + 1][x_first].check_if_hit()))
+								{
+									found = true;
+									x = x_first;
+									y = y_prev + 1;
+								}
+								else
+									throw Exception("Targeting error: 127");
+							}
+
+							if (!(y_second - 1 <= 0) && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
+							{
+								found = true;
+								x = x_first;
+								y = y_second - 1;
+							}
+						}
+					}
+					else if (y_first == y_second) // horizontally
+					{
+						bool found = false;
+						if (x_second > x_first)
+						{
+							if (x_prev > x_second)
+							{
+								if (!(x_prev + 1 >= board_size) && !((*opponent.getBoard())[y_first][x_prev + 1].check_if_hit()))
+								{
+									found = true;
+									x = x_prev + 1;
+									y = y_first;
+								}
+								else if (!(x_first - 1 <= 0) && !((*opponent.getBoard())[y_first][x_first - 1].check_if_hit()))
+								{
+									found = true;
+									x = x_first - 1;
+									y = y_first;
+								}
+								else
+									throw Exception("Targeting error: 245");
+							}
+							else // y_prev < y_second (has changed direction)
+							{
+								if (!(x_prev - 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
+								{
+									found = true;
+									x = x_prev - 1;
+									y = y_first;
+								}
+								else
+									throw Exception("Targeting error: 134");
+							}
+						}
+						else // x_second < x_first (downwards)
+						{
+							if (x_prev < x_second)
+							{
+								if (!(x_prev - 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev - 1].check_if_hit()))
+								{
+									found = true;
+									x = x_prev - 1;
+									y = y_first;
+								}
+								else if (!(x_first + 1 >= board_size) && !((*opponent.getBoard())[y_first][x_first + 1].check_if_hit()))
+								{
+									found = true;
+									x = x_first + 1;
+									y = y_first;
+								}
+								else
+									throw Exception("Targeting error: 312");
+							}
+							else // y_prev > y_second (has changed direction)
+							{
+								if (!(x_prev + 1 <= 0) && !((*opponent.getBoard())[y_first][x_prev + 1].check_if_hit()))
+								{
+									found = true;
+									x = x_prev + 1;
+									y = y_first;
+								}
+								else
+									throw Exception("Targeting error: 645");
+							}
+
+							if (!(x_second - 1 <= 0) && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
+							{
+								found = true;
+								x = x_second - 1;
+								y = y_first;
+							}
+						}
+					}
+					else
+						throw Exception("Targeting error: 299");
+				}
+				else // hit in firing > 2
+				{
+					// tmp
+					x = rand() % 10;
+					y = rand() % 10;
 				}
 			}
 			else // random hit, not targeted
 			{
+				// todo: smallest alive ship targeting
 				x = rand() % 10;
 				y = rand() % 10;
 			}
-
-			
-			
 
 			// if the hit flag is already set, repeat giving coordinates proccess
 			if (!((*opponent.getBoard())[y][x].check_if_hit()))
@@ -116,16 +304,24 @@ bool Ai::move(BasePlayer& opponent)
 			Ship* returned_ship = (*opponent.getBoard())[y][x].getShip();
 			opponent.hit_ship(returned_ship);
 			targeted = true;
-			// first hit
-			if (x_prev != -1 && y_prev != -1)
+			hit_in_firing++;
+			// todo: dynamic ship recognition
+
+			if (hit_in_firing == 1)
 			{
-				x_prev_prev = x_prev;
-				y_prev_prev = y_prev;
 				x_first = x;
 				y_first = y;
 			}
-			x_prev = x;
-			y_prev = y;
+			else if (hit_in_firing == 2)
+			{
+				x_second = x;
+				y_second = y;
+			}
+			else // 3, 4, 5...
+			{
+				x_prev = x;
+				y_prev = y;
+			}
 
 			// sunken ship
 			if (returned_ship->getHits() == returned_ship->getSize())
@@ -133,13 +329,15 @@ bool Ai::move(BasePlayer& opponent)
 				std::cout << returned_ship->getName() << " was sunken!" << std::endl;
 				this->operator++();
 				targeted = false;
+				hit_in_firing = 0;
 
+				// todo: save sunken ship for better hit chance
 				x_first = -1;
 				y_first = -1;
-				x_prev = -1;
-				y_prev = -1;
-				x_prev_prev = -1;
-				y_prev_prev = -1;
+				x_second = -1;
+				y_second = -1;
+				x_next = -1;
+				y_next = -1;
 
 				// end of the game
 				if (getKills() == 5)
@@ -154,17 +352,7 @@ bool Ai::move(BasePlayer& opponent)
 		else // miss
 		{
 			std::cout << "miss!" << std::endl;
-			/*if (x_prev_prev != -1 && y_prev_prev != -1) //todo
-			{
-				x_prev_prev = x_prev;
-				y_prev_prev = y_prev;
-			}*/
-			x_prev = x_first;
-			y_prev = y_first;
-
-			// tmp - todo: intelligent change of targeting
-			x_prev_prev = -1;
-			y_prev_prev = -1;
+			
 
 			combo = false;
 			opponent.setCombo();

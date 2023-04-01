@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class Exception
+class Exception : public std::exception
 {
 	// the error message
 	std::string error;

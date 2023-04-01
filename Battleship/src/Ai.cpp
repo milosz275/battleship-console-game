@@ -52,7 +52,7 @@ bool Ai::move(BasePlayer& opponent)
 						y = y_first;
 					}
 					else
-						throw Exception("Targeting error: 231");
+						throw Exception("Targeting error");
 				}
 				else if (hit_in_firing == 2) // second was hit, now hitting third
 				{
@@ -85,7 +85,7 @@ bool Ai::move(BasePlayer& opponent)
 								y = y_first - 1;
 							}
 							else
-								throw Exception("Targeting error: 287");
+								throw Exception("Targeting error");
 						}
 					}
 					else if (y_first == y_second) // horizontally

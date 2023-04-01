@@ -38,6 +38,8 @@ class BasePlayer
 	public:
 		// creates a base class of a player: Player or Ai
 		BasePlayer(std::string n);
+		// deletes a player
+		~BasePlayer();
 		// populate board automatically or manually, has to be overloaded in derived classes
 		virtual void populate_board(void) = 0;
 		// returns true, if the last ship was sunken
@@ -54,9 +56,9 @@ class BasePlayer
 		bool check_neighbourhood(int x, int y, int length, bool horizontally);
 		// inserts a boat at given coordinates
 		void insert_boat(Ship& s, int x, int y, bool horizontally);
-		// randomly generates coordinates, checks the neighbourhood and inserts the ship
+		// randomly generates coordinates, checks the neighbourhood and inserts given ship
 		void fill_board_auto(Ship& s);
-		// generates ship, populates the board with all ship automatically
+		// generates all ship, populates the board with them automatically
 		void create_boats_populate_auto(void);
 		// prints the board to given stream
 		void print_board(std::ostream& os = std::cout);

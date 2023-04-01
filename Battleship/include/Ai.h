@@ -2,6 +2,10 @@
 #define AI_H
 
 #include "BasePlayer.h"
+// todo:
+// heatmap of shots
+// checkerboard searching appropriately to smallest ship alive
+// normal distribution
 
 class Ai : public BasePlayer
 	{

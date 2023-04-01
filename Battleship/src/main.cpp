@@ -4,18 +4,19 @@
 // https://en.wikipedia.org/wiki/Battleship_(game)
 // in this game battleship cannot touch
 // game throws errors when a bug occured
+// todo: sdl/opengl convertion
 
 int main(int argc, char* argv[])
 {
 	try
 	{
-		Battleship::Game GG;
-		GG.play();
+		Battleship::Game* GG = new Battleship::Game();
+		GG->play();
+		delete GG;
 	}
-	catch (Exception& e)
+	catch (Exception& E)
 	{
-		std::cout << e;
+		std::cout << E << std::endl;
 	}
-
 	return 0;
 }

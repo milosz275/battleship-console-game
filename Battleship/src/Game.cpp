@@ -5,7 +5,7 @@ namespace Battleship
 {
 	Game::Game() : finishedGame(false), player_1(NULL), player_2(NULL) { srand((unsigned)time(NULL)); create_players(); };
 
-	Game::~Game() {};
+	Game::~Game() { delete player_1, player_2; };
 
 	void Game::create_players(void)
 	{

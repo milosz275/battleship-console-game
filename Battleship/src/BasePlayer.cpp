@@ -1,9 +1,10 @@
 #include "BasePlayer.h"
-
 // coordinates are switched due to vector of vectors characteristics
 // todo: rotate board
 
 BasePlayer::BasePlayer(std::string n) : board(NULL), PlayerName(n), combo(true), kills(0), ShipList(NULL), moves(0) { create_board(); }
+
+BasePlayer::~BasePlayer() { delete board, ShipList; }
 
 void BasePlayer::create_board(void)
 {
@@ -69,7 +70,15 @@ void BasePlayer::print_ship(std::ostream& os)
 
 void BasePlayer::hit_ship(Ship* s)
 {
-	for_each(ShipList->begin(), ShipList->end(), [&s](Ship* c) { if (c == s) { (*c).operator++(); }});
+	all_of(ShipList->begin(), ShipList->end(), [&s](Ship* c)
+		{
+			if (c == s) 
+			{
+				(*c).operator++();
+				return false;
+			}
+			return true;
+		});
 }
 
 bool BasePlayer::check_neighbourhood(int x, int y, int length, bool horizontally)

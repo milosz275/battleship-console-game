@@ -1,4 +1,4 @@
-#include "BasePlayer.h"
+#include "include/BasePlayer.h"
 // coordinates are switched due to vector of vectors characteristics
 // todo: rotate board
 

@@ -1,6 +1,8 @@
-#include "Ai.h"
+#include "include/Ai.h"
 
 Ai::Ai() : BasePlayer("Computer"), targeted(false), x_prev(-1), y_prev(-1), x_first(-1), y_first(-1), x_second(-1), y_second(-1), hit_in_firing(0) {}
+
+Ai::~Ai() {}
 
 void Ai::populate_board(void)
 {

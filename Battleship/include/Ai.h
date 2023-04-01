@@ -1,7 +1,7 @@
 #ifndef AI_H
 #define AI_H
 
-#include "BasePlayer.h"
+#include "include/BasePlayer.h"
 // todo:
 // heatmap of shots
 // checkerboard searching appropriately to smallest ship alive
@@ -29,6 +29,8 @@ class Ai : public BasePlayer
 	public:
 		// creates a bot
 		Ai();
+		// deletes the bot
+		~Ai();
 		// populate board automatically
 		void populate_board(void);
 		// let the bot make a move on the board

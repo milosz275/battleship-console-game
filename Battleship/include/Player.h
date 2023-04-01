@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "BasePlayer.h"
+#include "include/BasePlayer.h"
 #include <string>
 
 class Player : public BasePlayer
@@ -9,6 +9,8 @@ class Player : public BasePlayer
 public:
 	// creates a player of a given name
 	Player(std::string n);
+	// deletes the player
+	~Player();
 	// groups method calls, lets the player decide how to populate board: manually or automatically
 	void populate_board(void);
 	// lets the player set all the ship manually

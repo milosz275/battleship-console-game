@@ -1,4 +1,4 @@
-#include "Square.h"
+#include "include/Square.h"
 
 Square::Square() : ship(NULL), isHit(false) {};
 

@@ -1,6 +1,8 @@
-#include "Player.h"
+#include "include/Player.h"
 
 Player::Player(std::string n) : BasePlayer(n) {}
+
+Player::~Player() {}
 
 void Player::populate_board(void)
 {
@@ -60,7 +62,13 @@ void Player::fill_board_manually(Ship& s)
 
 void Player::create_boats_populate_manually(void)
 {
-	Ship Destroyer(2, "Destroyer"), Submarine(3, "Submarine"), Cruiser(3, "Cruiser"), Battleship(4, "Battleship"), Carrier(5, "Carrier");
+	// create ship
+	Ship Destroyer(2, "Destroyer"),
+		Submarine(3, "Submarine"),
+		Cruiser(3, "Cruiser"),
+		Battleship(4, "Battleship"),
+		Carrier(5, "Carrier");
+	// set ship according to player's will
 	fill_board_manually(Carrier);
 	fill_board_manually(Battleship);
 	fill_board_manually(Cruiser);

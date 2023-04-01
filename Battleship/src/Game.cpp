@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "include/Game.h"
 // todo in final version: system("cls") to separate turns
 
 namespace Battleship

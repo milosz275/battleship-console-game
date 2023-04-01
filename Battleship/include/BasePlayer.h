@@ -7,10 +7,11 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iterator>
 #include <map>
-#include "Exception.h"
-#include "Square.h"
-#include "Ship.h"
+#include "include/Exception.h"
+#include "include/Square.h"
+#include "include/Ship.h"
 
 static std::map<char, int> coords{ {'a', 1}, {'b', 2}, {'c', 3}, {'d', 4}, {'e', 5}, {'f', 6}, {'g', 7}, {'h', 8}, {'i', 9}, {'j', 10} };
 static std::map<int, char> coords_inv{ {1, 'a'}, {2, 'b'}, {3, 'c'}, {4, 'd'}, {5, 'e'}, {6, 'f'}, {7, 'g'}, {8, 'h'}, {9, 'i'}, {10, 'j'} };
@@ -39,7 +40,7 @@ class BasePlayer
 		// creates a base class of a player: Player or Ai
 		BasePlayer(std::string n);
 		// deletes a player
-		~BasePlayer();
+		virtual ~BasePlayer();
 		// populate board automatically or manually, has to be overloaded in derived classes
 		virtual void populate_board(void) = 0;
 		// returns true, if the last ship was sunken

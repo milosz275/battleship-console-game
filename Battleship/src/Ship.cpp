@@ -1,4 +1,4 @@
-#include "Ship.h"
+#include "include/Ship.h"
 
 int Ship::getSize(void) { return size; }
 

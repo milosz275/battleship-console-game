@@ -2,7 +2,7 @@
 #define SQUARE_H
 
 #include "Exception.h"
-#include "Ship.h"
+#include "include/Ship.h"
 
 class Square
 {

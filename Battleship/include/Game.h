@@ -8,10 +8,10 @@
 #include <iomanip>
 #include <list>
 #include <map>
-#include "Exception.h"
-#include "BasePlayer.h"
-#include "Player.h"
-#include "Ai.h"
+#include "include/Exception.h"
+#include "include/BasePlayer.h"
+#include "include/Player.h"
+#include "include/Ai.h"
 
 namespace Battleship
 {

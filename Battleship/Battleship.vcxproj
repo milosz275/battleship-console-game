@@ -91,7 +91,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\SDL2-2.26.3\include;C:\Users\mlsh\source\repos\battleship\Battleship\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\SDL2-2.26.3\include;C:\Users\mlsh\source\repos\battleship\Battleship\;$(IncludePath)</IncludePath>
     <LibraryPath>C:\SDL2-2.26.3\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -27,7 +27,7 @@ namespace Battleship
 		else if (answer == "ai" || answer == "pc" || answer == "computer" || answer == "2")
 			player_2 = new Ai();
 		else
-			throw Exception("Wrong opponent supplied: " + answer);
+			throw GameExceptions::Exception("Wrong opponent supplied: " + answer);
 
 		player_1->populate_board();
 		player_2->populate_board();
@@ -36,7 +36,7 @@ namespace Battleship
 	void Game::play(void)
 	{
 		if (player_1 == NULL || player_2 == NULL)
-			throw Exception("Players were not created");
+			throw GameExceptions::Exception("Players were not created");
 
 		player_1->print_board();
 		player_2->print_board();

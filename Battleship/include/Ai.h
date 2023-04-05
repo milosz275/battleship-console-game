@@ -7,7 +7,9 @@
 // checkerboard searching appropriately to smallest ship alive
 // normal distribution
 
-class Ai : public BasePlayer
+namespace Battleship
+{
+	class Ai : public BasePlayer
 	{
 	protected:
 		// flag indicating if the bot is targeting a ship
@@ -36,5 +38,6 @@ class Ai : public BasePlayer
 		// let the bot make a move on the board
 		bool move(BasePlayer& opponent);
 	};
+}
 
 #endif

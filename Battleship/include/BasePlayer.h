@@ -16,7 +16,9 @@
 static std::map<char, int> coords{ {'a', 1}, {'b', 2}, {'c', 3}, {'d', 4}, {'e', 5}, {'f', 6}, {'g', 7}, {'h', 8}, {'i', 9}, {'j', 10} };
 static std::map<int, char> coords_inv{ {1, 'a'}, {2, 'b'}, {3, 'c'}, {4, 'd'}, {5, 'e'}, {6, 'f'}, {7, 'g'}, {8, 'h'}, {9, 'i'}, {10, 'j'} };
 
-class BasePlayer
+namespace Battleship
+{
+	class BasePlayer
 	{
 	protected:
 		// size of the board: number of rows and columns
@@ -70,5 +72,6 @@ class BasePlayer
 		// hits a ship
 		void hit_ship(Ship* s);
 	};
+}
 
 #endif

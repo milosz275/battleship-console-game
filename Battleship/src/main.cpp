@@ -4,7 +4,7 @@
 // https://en.wikipedia.org/wiki/Battleship_(game)
 // in this game battleship cannot touch
 // game throws errors when a bug occured
-// todo: sdl/opengl convertion
+// todo: sdl/opengl convertion, make debug fixes
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 		GG->play();
 		delete GG;
 	}
-	catch (Exception& E)
+	catch (GameExceptions::Exception& E)
 	{
 		std::cout << E << std::endl;
 	}

@@ -1,5 +1,8 @@
 #include "include/Exception.h"
 
-Exception::Exception(std::string e, int t) : runtime_error(e.c_str()), code(t) {};
+namespace GameExceptions
+{
+	Exception::Exception(std::string e, int t) : runtime_error(e.c_str()), code(t) {};
 
-std::ostream& operator<<(std::ostream& os, const Exception& e) { return os << "Exception: " << e.what() << std::endl; }
+	std::ostream& operator<<(std::ostream& os, const Exception& e) { return os << "Exception: " << e.what() << std::endl; }
+}

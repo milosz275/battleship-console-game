@@ -3,6 +3,7 @@
 
 #include "Exception.h"
 #include "include/Ship.h"
+#include <cassert>
 
 namespace Battleship
 {

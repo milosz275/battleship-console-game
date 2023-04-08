@@ -2,6 +2,7 @@
 #define AI_H
 
 #include "include/BasePlayer.h"
+#include <cassert>
 // todo:
 // heatmap of shots
 // checkerboard searching appropriately to smallest ship alive

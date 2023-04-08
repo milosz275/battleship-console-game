@@ -10,7 +10,7 @@ namespace Battleship
 
 	std::string Ship::getName(void) { return name; }
 
-	Ship::Ship(int s, std::string n) : size(s), name(n), hits(0) {};
+	Ship::Ship(int s, std::string n) : name(n), hits(0) { assert(s > 0 && s <= 10); size = s; };
 
 	bool Ship::operator==(const Ship* s) { return name == s->name; }
 

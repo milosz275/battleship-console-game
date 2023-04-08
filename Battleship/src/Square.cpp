@@ -14,8 +14,7 @@ namespace Battleship
 
 	void Square::setShip(Ship& S)
 	{
-		if (ship != NULL)
-			throw GameExceptions::Exception("Tried to set a ship on a ship");
+		assert(ship == NULL);
 		ship = &S;
 	}
 

@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
+#include <cassert>
 #include "include/Exception.h"
 #include "include/Square.h"
 #include "include/Ship.h"

@@ -144,6 +144,7 @@ namespace Battleship
 					y = rand() % 10;
 				x = rand() % 10;
 			}
+			assert(x >= 0 && x < 10 && y >= 0 && y < 10);
 			occupied = check_neighbourhood(x, y, s.getSize(), horizontal);
 		}
 		insert_boat(s, x, y, horizontal);
@@ -153,7 +154,11 @@ namespace Battleship
 	{
 		ShipList = new std::list<Ship*>;
 		Ship* Destroyer = new Ship(2, "Destroyer"), * Submarine = new Ship(3, "Submarine"), * Cruiser = new Ship(3, "Cruiser"), * Battleship = new Ship(4, "Battleship"), * Carrier = new Ship(5, "Carrier");
-		ShipList->push_back(Destroyer); ShipList->push_back(Submarine); ShipList->push_back(Cruiser); ShipList->push_back(Battleship), ShipList->push_back(Carrier);
+		ShipList->push_back(Destroyer);
+		ShipList->push_back(Submarine);
+		ShipList->push_back(Cruiser);
+		ShipList->push_back(Battleship);
+		ShipList->push_back(Carrier);
 		for_each(ShipList->begin(), ShipList->end(), [this](Ship* s) { fill_board_auto(*s); });
 	}
 }

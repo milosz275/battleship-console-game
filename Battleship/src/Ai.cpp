@@ -56,7 +56,7 @@ namespace Battleship
 							y = y_first;
 						}
 						else
-							throw GameExceptions::Exception("Targeting error");
+							throw GameExceptions::Exception("Ai targeting error");
 					}
 					else if (hit_in_firing == 2) // second was hit, now hitting third
 					{
@@ -89,7 +89,7 @@ namespace Battleship
 									y = y_first - 1;
 								}
 								else
-									throw GameExceptions::Exception("Targeting error");
+									throw GameExceptions::Exception("Ai targeting error");
 							}
 						}
 						else if (y_first == y_second) // horizontally
@@ -121,11 +121,11 @@ namespace Battleship
 									y = y_first;
 								}
 								else
-									throw GameExceptions::Exception("Targeting error");
+									throw GameExceptions::Exception("Ai targeting error");
 							}
 						}
 						else
-							throw GameExceptions::Exception("Targeting error");
+							throw GameExceptions::Exception("Ai targeting error");
 					}
 					else if (hit_in_firing >= 3)
 					{
@@ -149,7 +149,7 @@ namespace Battleship
 										y = y_first - 1;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 								else // y_prev < y_second (has changed direction)
 								{
@@ -160,7 +160,7 @@ namespace Battleship
 										y = y_prev - 1;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 							}
 							else // y_second < y_first (downwards)
@@ -180,7 +180,7 @@ namespace Battleship
 										y = y_first + 1;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 								else // y_prev > y_second (has changed direction)
 								{
@@ -191,7 +191,7 @@ namespace Battleship
 										y = y_prev + 1;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 
 								if (y_second - 1 >= 0 && !((*opponent.getBoard())[y_second - 1][x_first].check_if_hit()))
@@ -222,7 +222,7 @@ namespace Battleship
 										y = y_first;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 								else // y_prev < y_second (has changed direction)
 								{
@@ -233,7 +233,7 @@ namespace Battleship
 										y = y_first;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 							}
 							else // x_second < x_first (downwards)
@@ -253,7 +253,7 @@ namespace Battleship
 										y = y_first;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 								else // y_prev > y_second (has changed direction)
 								{
@@ -264,7 +264,7 @@ namespace Battleship
 										y = y_first;
 									}
 									else
-										throw GameExceptions::Exception("Targeting error");
+										throw GameExceptions::Exception("Ai targeting error");
 								}
 
 								if (x_second - 1 >= 0 && !((*opponent.getBoard())[y_first][x_second - 1].check_if_hit()))
@@ -276,10 +276,10 @@ namespace Battleship
 							}
 						}
 						else
-							throw GameExceptions::Exception("Targeting error");
+							throw GameExceptions::Exception("Ai targeting error");
 					}
 					else // hit in firing > 2
-						throw GameExceptions::Exception("Targeting error");
+						throw GameExceptions::Exception("Ai targeting error");
 				}
 				else // random hit, not targeted
 				{
@@ -287,6 +287,7 @@ namespace Battleship
 					x = rand() % 10;
 					y = rand() % 10;
 				}
+				assert(x >= 0 && x < 10 && y >= 0 && y < 10);
 
 				// if the hit flag is already set, repeat giving coordinates proccess
 				if (!((*opponent.getBoard())[y][x].check_if_hit()))

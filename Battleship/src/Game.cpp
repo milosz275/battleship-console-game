@@ -1,10 +1,13 @@
 #include "include/Game.h"
+// todo: save gamestate
 
 namespace Battleship
 {
-	Game::Game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); create_players(); };
+	Game::Game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); create_players(); };
 
 	Game::~Game() { delete m_player_1, m_player_2; };
+
+	void Game::welcome_message(void) { std::cout << "Welcome to the Battleship game!" << std::endl; }
 
 	void Game::create_players(void)
 	{
@@ -16,17 +19,27 @@ namespace Battleship
 		std::string answer;
 		std::getline(std::cin, answer);
 		transform(answer.begin(), answer.end(), answer.begin(), tolower);
-		if (answer == "player" || answer == "person" || answer == "friend" || answer == "1")
+
+		while (1)
 		{
-			name.erase();
-			std::cout << "give the name of the second player: ";
-			std::getline(std::cin, name);
-			m_player_2 = new Player(name);
+			if (answer == "1" || answer == "player" || answer == "person" || answer == "friend")
+			{
+				name.erase();
+				std::cout << "give the name of the second player: ";
+				std::getline(std::cin, name);
+				m_player_2 = new Player(name);
+				break;
+			}
+			else if (answer == "2" || answer == "ai" || answer == "pc" || answer == "computer")
+			{
+				m_player_2 = new Ai();
+				break;
+			}
+			std::cout << "Wrong opponent supplied: " << answer << std::endl;
+			std::cout << "Try again: ";
+			std::getline(std::cin, answer);
+			transform(answer.begin(), answer.end(), answer.begin(), tolower);
 		}
-		else if (answer == "ai" || answer == "pc" || answer == "computer" || answer == "2")
-			m_player_2 = new Ai();
-		else
-			throw GameExceptions::Exception("Wrong opponent supplied: " + answer);
 
 		// fill the boards with ship
 		m_player_1->populate_board();
@@ -69,6 +82,8 @@ namespace Battleship
 			clear_screen();
 			std::cout << "Player move: " << m_current_player->get_name() << std::endl;
 			m_finished_game = m_current_player->move(*m_current_player->get_next_player());
+			std::cout << "Press enter to continue: ";
+			int tmp = getchar();
 			switch_turn();
 		}
 	}

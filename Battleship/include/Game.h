@@ -30,6 +30,8 @@ namespace Battleship
 		Game();
 		// deletes players
 		~Game();
+		//
+		void welcome_message(void);
 		// creates players and populates boards belonging to the players
 		void create_players(void);
 		//

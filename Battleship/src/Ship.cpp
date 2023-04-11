@@ -2,17 +2,17 @@
 
 namespace Battleship
 {
-	int Ship::getSize(void) { return size; }
+	int Ship::getSize(void) { return m_size; }
 
-	int Ship::getHits(void) { return hits; }
+	int Ship::getHits(void) { return m_hits; }
 
-	const Ship* Ship::operator++() { hits++; return this; }
+	const Ship* Ship::operator++() { m_hits++; return this; }
 
-	std::string Ship::getName(void) { return name; }
+	std::string Ship::getName(void) { return m_name; }
 
-	Ship::Ship(int s, std::string n) : name(n), hits(0) { assert(s > 0 && s <= 10); size = s; };
+	Ship::Ship(int size, std::string name) : m_name(name), m_hits(0) { assert(size > 0 && size <= 10); m_size = size; };
 
-	bool Ship::operator==(const Ship* s) { return name == s->name; }
+	bool Ship::operator==(const Ship* ship) { return m_name == ship->m_name; }
 
-	std::ostream& operator<<(std::ostream& os, const Ship* S) { return os << "ship name: " << S->name << "\t size: " << S->size << "\t hits: " << S->hits << std::endl; }
+	std::ostream& operator<<(std::ostream& os, const Ship* ship) { return os << "ship name: " << ship->m_name << "\t size: " << ship->m_size << "\t hits: " << ship->m_hits << std::endl; }
 }

@@ -18,11 +18,11 @@ namespace Battleship
 	class Game
 	{
 		// flag indicating if the game is finished
-		bool finishedGame;
+		bool m_finished_game;
 		// pointer to the first player
-		BasePlayer* player_1;
+		BasePlayer* m_player_1;
 		// pointer to the second player
-		BasePlayer* player_2;
+		BasePlayer* m_player_2;
 	public:
 		// creates game, calls the create_players method
 		Game();

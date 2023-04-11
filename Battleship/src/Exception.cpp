@@ -2,7 +2,7 @@
 
 namespace GameExceptions
 {
-	Exception::Exception(std::string e, int t) : runtime_error(e.c_str()), code(t) {};
+	Exception::Exception(std::string error, int code) : runtime_error(error.c_str()), m_code(code) {};
 
-	std::ostream& operator<<(std::ostream& os, const Exception& e) { return os << "Exception: " << e.what() << std::endl; }
+	std::ostream& operator<<(std::ostream& os, const Exception& exception) { return os << "Exception: " << exception.what() << std::endl; }
 }

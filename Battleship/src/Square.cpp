@@ -2,31 +2,31 @@
 
 namespace Battleship
 {
-	Square::Square() : ship(NULL), isHit(false) {};
+	Square::Square() : m_ship(NULL), m_is_hit(false) {};
 
-	bool Square::check_if_contains_ship(void) { if (ship == NULL) return false; else return true; }
+	bool Square::check_if_contains_ship(void) { if (m_ship == NULL) return false; else return true; }
 
-	bool Square::check_if_hit(void) { return isHit; }
+	bool Square::check_if_hit(void) { return m_is_hit; }
 
-	Ship* Square::getShip(void) { return ship; }
+	Ship* Square::getShip(void) { return m_ship; }
 
-	void Square::setHit(void) { isHit = true; }
+	void Square::setHit(void) { m_is_hit = true; }
 
-	void Square::setShip(Ship& S)
+	void Square::setShip(Ship& ship)
 	{
-		assert(ship == NULL);
-		ship = &S;
+		assert(m_ship == NULL);
+		m_ship = &ship;
 	}
 
-	void Square::deleteShip(void) { delete ship; }
+	void Square::deleteShip(void) { delete m_ship; }
 
-	std::ostream& operator<<(std::ostream& os, const Square& S)
+	std::ostream& operator<<(std::ostream& os, const Square& ship)
 	{
-		if (S.isHit && S.ship != NULL)
+		if (ship.m_is_hit && ship.m_ship != NULL)
 			return os << "X";
-		else if (S.isHit)
+		else if (ship.m_is_hit)
 			return os << "/";
-		else if (S.ship == NULL)
+		else if (ship.m_ship == NULL)
 			return os << "-";
 		else
 			return os << "O";

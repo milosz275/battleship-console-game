@@ -8,7 +8,7 @@ namespace Battleship
 
 	void Player::populate_board(void)
 	{
-		std::cout << "populating board of " << PlayerName << std::endl;
+		std::cout << "populating board of " << m_player_name << std::endl;
 		std::cout << "manually or auto? ";
 		std::string answer;
 		std::getline(std::cin, answer);
@@ -21,17 +21,17 @@ namespace Battleship
 			throw GameExceptions::Exception("Wrong method of populating board supplied: " + answer);
 	}
 
-	void Player::fill_board_manually(Ship& s)
+	void Player::fill_board_manually(Ship& ship)
 	{
 		bool occupied = true;
 		int x;
 		int y;
 		bool horizontal;
-		int size = s.getSize();
+		int size = ship.getSize();
 		while (occupied)
 		{
 			print_board();
-			std::cout << "setting: " << s.getName() << "; size: " << s.getSize() << std::endl;
+			std::cout << "setting: " << ship.getName() << "; size: " << ship.getSize() << std::endl;
 			std::cout << "give the starting x coordinate: ";
 			std::cin >> x;
 			if (x < 1 || x > 10)
@@ -55,11 +55,11 @@ namespace Battleship
 			else
 				throw GameExceptions::Exception("Wrong orientation supplied: " + answer);
 
-			occupied = check_neighbourhood(x, y, s.getSize(), horizontal);
+			occupied = check_neighbourhood(x, y, ship.getSize(), horizontal);
 			if (occupied)
 				std::cout << "supplied coordinates colide with another ship" << std::endl;
 		}
-		insert_boat(s, x, y, horizontal);
+		insert_boat(ship, x, y, horizontal);
 	}
 
 	void Player::create_boats_populate_manually(void)
@@ -80,8 +80,8 @@ namespace Battleship
 
 	bool Player::move(BasePlayer& opponent)
 	{
-		moves++;
-		while (combo)
+		m_moves++;
+		while (m_combo)
 		{
 			std::cout << "Your board:" << std::endl;
 			print_board();
@@ -130,21 +130,21 @@ namespace Battleship
 				y = tmp - 1;
 
 				// if the hit flag is already set, repeat giving coordinates proccess
-				if ((*opponent.getBoard())[y][x].check_if_hit())
+				if ((*opponent.get_board())[y][x].check_if_hit())
 					std::cout << "That coordinates where already shot at. Try again" << std::endl;
 				else
 					goodCoordinates = true;
 			}
 
 			// sets the hit flag on a target square
-			(*opponent.getBoard())[y][x].setHit();
+			(*opponent.get_board())[y][x].setHit();
 
 			// check and hit
-			if ((*opponent.getBoard())[y][x].check_if_contains_ship())
+			if ((*opponent.get_board())[y][x].check_if_contains_ship())
 			{
 				// hit
 				std::cout << "hit!" << std::endl;
-				Ship* returned_ship = (*opponent.getBoard())[y][x].getShip();
+				Ship* returned_ship = (*opponent.get_board())[y][x].getShip();
 				opponent.hit_ship(returned_ship);
 
 				// sunken ship
@@ -154,20 +154,20 @@ namespace Battleship
 					this->operator++();
 
 					// end of the game
-					if (getKills() == 5)
+					if (get_kills() == 5)
 					{
-						std::cout << PlayerName << " won!" << std::endl;
+						std::cout << m_player_name << " won!" << std::endl;
 						return true;
 					}
 				}
-				combo = true;
-				std::cout << PlayerName << " hit a ship and have another move" << std::endl;
+				m_combo = true;
+				std::cout << m_player_name << " hit a ship and have another move" << std::endl;
 			}
 			else
 			{
 				std::cout << "miss!" << std::endl;
-				combo = false;
-				opponent.setCombo();
+				m_combo = false;
+				opponent.set_combo();
 			}
 		}
 		return false;

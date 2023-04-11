@@ -10,9 +10,9 @@ namespace Battleship
 	class Square
 	{
 		// pointer to the ship set in the square
-		Ship* ship;
+		Ship* m_ship;
 		// flag indicating if the square were shot at
-		bool isHit;
+		bool m_is_hit;
 	public:
 		// initialises the square
 		Square();
@@ -25,11 +25,11 @@ namespace Battleship
 		// increments hit counts of the ship contained in the square
 		void setHit(void);
 		// sets the ship into the square
-		void setShip(Ship& S);
+		void setShip(Ship& ship);
 		// deletes the ship which the square contains
 		void deleteShip(void);
 		// prints the square to the given stream
-		friend std::ostream& operator<<(std::ostream& os, const Square& S);
+		friend std::ostream& operator<<(std::ostream& os, const Square& ship);
 	};
 }
 

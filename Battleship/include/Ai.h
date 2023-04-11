@@ -14,21 +14,21 @@ namespace Battleship
 	{
 	protected:
 		// flag indicating if the bot is targeting a ship
-		bool targeted;
+		bool m_targeted;
 		// count of hits in current targeting
-		int hit_in_firing;
+		int m_hit_in_firing;
 		// x coordinate of previous hit
-		int x_prev;
+		int m_x_prev;
 		// y coordinate of previous hit
-		int y_prev;
+		int m_y_prev;
 		// x coordinate of first hit in given targeting
-		int x_first;
+		int m_x_first;
 		// y coordinate of first hit in given targeting
-		int y_first;
+		int m_y_first;
 		// x coordinate of second hit in given targeting
-		int x_second;
+		int m_x_second;
 		// y coordinate of second hit in given targeting
-		int y_second;
+		int m_y_second;
 	public:
 		// creates a bot
 		Ai();

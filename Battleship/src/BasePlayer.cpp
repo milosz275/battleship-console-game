@@ -1,29 +1,29 @@
 #include "include/BasePlayer.h"
 // coordinates are switched due to vector of vectors characteristics
-// todo: rotate board
+// todo: rotate m_board
 
 namespace Battleship
 {
-	BasePlayer::BasePlayer(std::string n) : board(NULL), PlayerName(n), combo(true), kills(0), ShipList(NULL), moves(0) { create_board(); }
+	BasePlayer::BasePlayer(std::string n) : m_board(NULL), m_player_name(n), m_combo(true), m_kills(0), m_ship_list(NULL), m_moves(0) { create_board(); }
 
-	BasePlayer::~BasePlayer() { delete board, ShipList; }
+	BasePlayer::~BasePlayer() { delete m_board, m_ship_list; }
 
 	void BasePlayer::create_board(void)
 	{
-		if (board == NULL)
-			board = new std::vector<std::vector<Square>>(board_size, std::vector<Square>(board_size));
+		if (m_board == NULL)
+			m_board = new std::vector<std::vector<Square>>(m_board_size, std::vector<Square>(m_board_size));
 		else
-			throw GameExceptions::Exception("Attempted to overwrite the board");
+			throw GameExceptions::Exception("Attempted to overwrite the m_board");
 	};
 
 	void BasePlayer::print_board(std::ostream& os) // todo: iomanip
 	{
-		if (board == NULL)
-			throw GameExceptions::Exception("Board is empty");
+		if (m_board == NULL)
+			throw GameExceptions::Exception("m_board is empty");
 		os << "\t ";
-		for (char c = 'A'; c < 'A' + board_size; ++c)
+		for (char c = 'A'; c < 'A' + m_board_size; ++c)
 			os << c << "  ";
-		for_each(board->begin(), board->end(), [&os, j = 0](std::vector<Square>& v) mutable
+		for_each(m_board->begin(), m_board->end(), [&os, j = 0](std::vector<Square>& v) mutable
 			{
 				os << std::endl << ++j << " \t|";
 				copy(v.begin(), v.end(), std::ostream_iterator<Square>(os, " |"));
@@ -33,12 +33,12 @@ namespace Battleship
 
 	void BasePlayer::print_board_discreetly(std::ostream& os) // todo: iomanip
 	{
-		if (board == NULL)
-			throw GameExceptions::Exception("Board is empty");
+		if (m_board == NULL)
+			throw GameExceptions::Exception("m_board is empty");
 		os << "\t ";
-		for (char c = 'A'; c < 'A' + board_size; ++c)
+		for (char c = 'A'; c < 'A' + m_board_size; ++c)
 			os << c << "  ";
-		for_each(board->begin(), board->end(), [&os, j = 0](std::vector<Square>& v) mutable
+		for_each(m_board->begin(), m_board->end(), [&os, j = 0](std::vector<Square>& v) mutable
 			{
 				os << std::endl << ++j << "\t|";
 				for_each(v.begin(), v.end(), [&os](Square& s)
@@ -55,25 +55,25 @@ namespace Battleship
 		os << std::endl;
 	}
 
-	int BasePlayer::getKills(void) { return kills; }
+	int BasePlayer::get_kills(void) { return m_kills; }
 
-	void BasePlayer::setCombo(void) { combo = true; }
+	void BasePlayer::set_combo(void) { m_combo = true; }
 
-	const BasePlayer& BasePlayer::operator++() { kills++; return *this; }
+	const BasePlayer& BasePlayer::operator++() { m_kills++; return *this; }
 
-	std::vector<std::vector<Square>>* BasePlayer::getBoard(void) { return board; }
+	std::vector<std::vector<Square>>* BasePlayer::get_board(void) { return m_board; }
 
 	void BasePlayer::print_ship(std::ostream& os)
 	{
-		if (ShipList == NULL)
+		if (m_ship_list == NULL)
 			throw GameExceptions::Exception("Ship list is empty");
-		copy(ShipList->begin(), ShipList->end(), std::ostream_iterator<Ship*>(os << "shiplist" << std::endl << " |", " |"));
+		copy(m_ship_list->begin(), m_ship_list->end(), std::ostream_iterator<Ship*>(os << "m_ship_list" << std::endl << " |", " |"));
 		std::cout << std::endl;
 	}
 
 	void BasePlayer::hit_ship(Ship* s)
 	{
-		all_of(ShipList->begin(), ShipList->end(), [&s](Ship* c)
+		all_of(m_ship_list->begin(), m_ship_list->end(), [&s](Ship* c)
 			{
 				if (c == s)
 				{
@@ -109,7 +109,7 @@ namespace Battleship
 			y_end++;
 
 		// check if the coordinates are occupied with a ship (change to all of)
-		for_each(board->begin() + y_start, board->begin() + y_end + 1, [&x_start, &x_end, &occupied](std::vector<Square>& v) { for_each(v.begin() + x_start, v.begin() + x_end + 1, [&occupied](Square& sq) { if (sq.check_if_contains_ship()) occupied = true; }); });
+		for_each(m_board->begin() + y_start, m_board->begin() + y_end + 1, [&x_start, &x_end, &occupied](std::vector<Square>& v) { for_each(v.begin() + x_start, v.begin() + x_end + 1, [&occupied](Square& sq) { if (sq.check_if_contains_ship()) occupied = true; }); });
 
 		return occupied;
 	}
@@ -117,9 +117,9 @@ namespace Battleship
 	void BasePlayer::insert_boat(Ship& s, int x, int y, bool horizontally)
 	{
 		if (horizontally)
-			for_each(board->begin() + y, board->begin() + y + 1, [&x, &s, &y](std::vector<Square>& v) { for_each(v.begin() + x, v.begin() + x + s.getSize(), [&s](Square& sq) { sq.setShip(s); }); });
+			for_each(m_board->begin() + y, m_board->begin() + y + 1, [&x, &s, &y](std::vector<Square>& v) { for_each(v.begin() + x, v.begin() + x + s.getSize(), [&s](Square& sq) { sq.setShip(s); }); });
 		else
-			std::for_each(board->begin() + y, board->begin() + y + s.getSize(), [&x, &s](std::vector<Square>& v) { v[x].setShip(s); });
+			std::for_each(m_board->begin() + y, m_board->begin() + y + s.getSize(), [&x, &s](std::vector<Square>& v) { v[x].setShip(s); });
 	}
 
 	void BasePlayer::fill_board_auto(Ship& s)
@@ -152,13 +152,13 @@ namespace Battleship
 
 	void BasePlayer::create_boats_populate_auto(void)
 	{
-		ShipList = new std::list<Ship*>;
+		m_ship_list = new std::list<Ship*>;
 		Ship* Destroyer = new Ship(2, "Destroyer"), * Submarine = new Ship(3, "Submarine"), * Cruiser = new Ship(3, "Cruiser"), * Battleship = new Ship(4, "Battleship"), * Carrier = new Ship(5, "Carrier");
-		ShipList->push_back(Destroyer);
-		ShipList->push_back(Submarine);
-		ShipList->push_back(Cruiser);
-		ShipList->push_back(Battleship);
-		ShipList->push_back(Carrier);
-		for_each(ShipList->begin(), ShipList->end(), [this](Ship* s) { fill_board_auto(*s); });
+		m_ship_list->push_back(Destroyer);
+		m_ship_list->push_back(Submarine);
+		m_ship_list->push_back(Cruiser);
+		m_ship_list->push_back(Battleship);
+		m_ship_list->push_back(Carrier);
+		for_each(m_ship_list->begin(), m_ship_list->end(), [this](Ship* s) { fill_board_auto(*s); });
 	}
 }

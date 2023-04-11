@@ -23,6 +23,8 @@ namespace Battleship
 		BasePlayer* m_player_1;
 		// pointer to the second player
 		BasePlayer* m_player_2;
+		// 
+		BasePlayer* m_current_player;
 	public:
 		// creates game, calls the create_players method
 		Game();
@@ -30,6 +32,10 @@ namespace Battleship
 		~Game();
 		// creates players and populates boards belonging to the players
 		void create_players(void);
+		//
+		void switch_turn(void);
+		//
+		void clear_screen(void);
 		// main game loop
 		void play(void);
 	};

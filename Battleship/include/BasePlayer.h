@@ -36,6 +36,8 @@ namespace Battleship
 		std::list<Ship*>* m_ship_list;
 		// moves count, may be used to evaluate ai's efficiency
 		int m_moves;
+		//
+		BasePlayer* m_next_player;
 	private:
 		// allocates the board
 		void create_board(void);
@@ -48,8 +50,14 @@ namespace Battleship
 		virtual void populate_board(void) = 0;
 		// returns true, if the last ship was sunken
 		virtual bool move(BasePlayer& opponent) = 0;
+		//
+		BasePlayer* set_next_player(BasePlayer* next_player);
+		//
+		BasePlayer* get_next_player(void);
 		// returns kill count
 		int get_kills(void);
+		//
+		std::string get_name(void);
 		// sets the combo flag to allow making a move
 		void set_combo(void);
 		// increments kills count

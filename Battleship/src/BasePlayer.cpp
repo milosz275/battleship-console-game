@@ -63,6 +63,12 @@ namespace Battleship
 
 	std::vector<std::vector<Square>>* BasePlayer::get_board(void) { return m_board; }
 
+	std::string BasePlayer::get_name(void) { return m_player_name; }
+
+	BasePlayer* BasePlayer::set_next_player(BasePlayer* next_player) { return m_next_player = next_player; }
+
+	BasePlayer* BasePlayer::get_next_player(void) { return m_next_player; }
+
 	void BasePlayer::print_ship(std::ostream& os)
 	{
 		if (m_ship_list == NULL)

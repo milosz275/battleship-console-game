@@ -1,6 +1,6 @@
 #include <iostream>
-#include "include/Game.h"
-#include "include/Exception.h"
+#include "include/game.h"
+#include "include/exception.h"
 // https://en.wikipedia.org/wiki/Battleship_(game)
 // in this game battleship cannot touch
 // game throws errors when a bug occured

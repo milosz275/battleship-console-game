@@ -1,8 +1,8 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
-#include "Exception.h"
-#include "include/Ship.h"
+#include "include/exception.h"
+#include "include/ship.h"
 #include <cassert>
 
 namespace battleship

@@ -1,4 +1,4 @@
-#include "include/Exception.h"
+#include "include/exception.h"
 
 namespace game_exceptions
 {

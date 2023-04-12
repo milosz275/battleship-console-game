@@ -1,29 +1,29 @@
 output: build/main.o
-	g++ -g -Wall -o output build/main.o build/Game.o build/Exception.o build/BasePlayer.o build/Player.o build/Ai.o build/Ship.o build/Square.o
+	g++ -g -Wall -o output build/main.o build/game.o build/exception.o build/base_player.o build/player.o build/ai.o build/ship.o build/square.o
 
-build/main.o: src/main.cpp build/Game.o build/Exception.o
+build/main.o: src/main.cpp build/game.o build/exception.o
 	g++ -g -Wall -c src/main.cpp -o build/main.o -I.
 
-build/Game.o: src/Game.cpp include/Game.h build/BasePlayer.o build/Player.o build/Ai.o
-	g++ -g -Wall -c src/Game.cpp -I. -o build/Game.o
+build/game.o: src/game.cpp include/game.h build/base_player.o build/player.o build/ai.o
+	g++ -g -Wall -c src/game.cpp -I. -o build/game.o
 
-build/Exception.o: src/Exception.cpp include/Exception.h
-	g++ -g -Wall -c src/Exception.cpp -I. -o build/Exception.o
+build/exception.o: src/exception.cpp include/exception.h
+	g++ -g -Wall -c src/exception.cpp -I. -o build/exception.o
 
-build/BasePlayer.o: src/BasePlayer.cpp include/BasePlayer.h build/Ship.o build/Square.o
-	g++ -g -Wall -c src/BasePlayer.cpp -I. -o build/BasePlayer.o
+build/base_player.o: src/base_player.cpp include/base_player.h build/ship.o build/square.o
+	g++ -g -Wall -c src/base_player.cpp -I. -o build/base_player.o
 
-build/Player.o: src/Player.cpp include/Player.h build/BasePlayer.o
-	g++ -g -Wall -c src/Player.cpp -I. -o build/Player.o
+build/player.o: src/player.cpp include/player.h build/base_player.o
+	g++ -g -Wall -c src/player.cpp -I. -o build/player.o
 
-build/Ai.o: src/Ai.cpp include/Ai.h build/BasePlayer.o
-	g++ -g -Wall -c src/Ai.cpp -I. -o build/Ai.o
+build/ai.o: src/ai.cpp include/ai.h build/base_player.o
+	g++ -g -Wall -c src/ai.cpp -I. -o build/ai.o
 
-build/Ship.o: src/Ship.cpp include/Ship.h
-	g++ -g -Wall -c src/Ship.cpp -I. -o build/Ship.o
+build/ship.o: src/ship.cpp include/ship.h
+	g++ -g -Wall -c src/ship.cpp -I. -o build/ship.o
 
-build/Square.o: src/Square.cpp include/Square.h
-	g++ -g -Wall -c src/Square.cpp -I. -o build/Square.o
+build/square.o: src/square.cpp include/square.h
+	g++ -g -Wall -c src/square.cpp -I. -o build/square.o
 
 clean:
 	rm build/*.o output

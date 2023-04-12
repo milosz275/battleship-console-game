@@ -1,16 +1,16 @@
 #ifndef AI_H
 #define AI_H
 
-#include "include/BasePlayer.h"
+#include "include/base_player.h"
 #include <cassert>
 // todo:
 // heatmap of shots
 // checkerboard searching appropriately to smallest ship alive
 // normal distribution
 
-namespace Battleship
+namespace battleship
 {
-	class Ai : public BasePlayer
+	class ai : public base_player
 	{
 	protected:
 		// flag indicating if the bot is targeting a ship
@@ -31,13 +31,13 @@ namespace Battleship
 		int m_y_second;
 	public:
 		// creates a bot
-		Ai();
+		ai();
 		// deletes the bot
-		~Ai();
+		~ai();
 		// populate board automatically
 		void populate_board(void);
 		// let the bot make a move on the board
-		bool move(BasePlayer& opponent);
+		bool move(base_player& opponent);
 	};
 }
 

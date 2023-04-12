@@ -5,31 +5,31 @@
 #include "include/Ship.h"
 #include <cassert>
 
-namespace Battleship
+namespace battleship
 {
-	class Square
+	class square
 	{
 		// pointer to the ship set in the square
-		Ship* m_ship;
+		ship* m_ship;
 		// flag indicating if the square were shot at
 		bool m_is_hit;
 	public:
 		// initialises the square
-		Square();
+		square();
 		// returns true if the square contains a ship, false respectively
 		bool check_if_contains_ship(void);
 		// returns true if the square were already shot at, false respectively
 		bool check_if_hit(void);
 		// returns the ship from the square
-		Ship* getShip(void);
+		ship* get_ship(void);
 		// increments hit counts of the ship contained in the square
-		void setHit(void);
+		void set_hit(void);
 		// sets the ship into the square
-		void setShip(Ship& ship);
+		void set_ship(ship& ship);
 		// deletes the ship which the square contains
-		void deleteShip(void);
+		void delete_ship(void);
 		// prints the square to the given stream
-		friend std::ostream& operator<<(std::ostream& os, const Square& ship);
+		friend std::ostream& operator<<(std::ostream& os, const square& ship);
 	};
 }
 

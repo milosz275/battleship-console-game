@@ -1,20 +1,23 @@
-#include "include/Game.h"
-// todo: save gamestate
+#include "include/game.h"
+// todo:
+// save gamestate
+// normal dist for shots
+// simulate ai game
 
-namespace Battleship
+namespace battleship
 {
-	Game::Game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); create_players(); };
+	game::game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); create_players(); };
 
-	Game::~Game() { delete m_player_1, m_player_2; };
+	game::~game() { delete m_player_1, m_player_2; };
 
-	void Game::welcome_message(void) { std::cout << "Welcome to the Battleship game!" << std::endl; }
+	void game::welcome_message(void) { std::cout << "Welcome to the Battleship game!" << std::endl; }
 
-	void Game::create_players(void)
+	void game::create_players(void)
 	{
 		std::string name;
 		std::cout << "give the name of the first player: ";
 		std::getline(std::cin, name);
-		m_player_1 = new Player(name);
+		m_player_1 = new player(name);
 		std::cout << "Do you want to play against another player or a computer? ";
 		std::string answer;
 		std::getline(std::cin, answer);
@@ -27,12 +30,12 @@ namespace Battleship
 				name.erase();
 				std::cout << "give the name of the second player: ";
 				std::getline(std::cin, name);
-				m_player_2 = new Player(name);
+				m_player_2 = new player(name);
 				break;
 			}
 			else if (answer == "2" || answer == "ai" || answer == "pc" || answer == "computer")
 			{
-				m_player_2 = new Ai();
+				m_player_2 = new ai();
 				break;
 			}
 			std::cout << "Wrong opponent supplied: " << answer << std::endl;
@@ -50,13 +53,13 @@ namespace Battleship
 		m_player_2->set_next_player(m_player_1);
 	}
 
-	void Game::switch_turn(void)
+	void game::switch_turn(void)
 	{
 		assert(m_player_1 != NULL && m_player_2 != NULL);
 		m_current_player = m_current_player->get_next_player();
 	}
 
-	void Game::clear_screen(void)
+	void game::clear_screen(void)
 	{
 		#ifdef WINDOWS
 		std::system("cls");
@@ -68,7 +71,7 @@ namespace Battleship
 		#endif
 	}
 
-	void Game::play(void)
+	void game::play(void)
 	{
 		if (m_player_1 == NULL || m_player_2 == NULL)
 		{

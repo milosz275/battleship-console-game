@@ -5,9 +5,9 @@
 #include <string>
 #include <cassert>
 
-namespace Battleship
+namespace battleship
 {
-	class Ship
+	class ship
 	{
 		// size of the ship
 		int m_size;
@@ -17,19 +17,19 @@ namespace Battleship
 		std::string m_name;
 	public:
 		// creates a ship of a given size and name
-		Ship(int size, std::string name);
+		ship(int size, std::string name);
 		// returns size of the ship
-		int getSize(void);
+		int get_size(void);
 		// returns hits count
-		int getHits(void);
+		int get_hits(void);
 		// increments hits count - equal to "make a hit"
-		const Ship* operator++();
+		const ship* operator++();
 		// return the name of the ship
-		std::string getName(void);
+		std::string get_name(void);
 		// gives and ability to copy pointer to the ship
-		bool operator==(const Ship* ship);
+		bool operator==(const ship* ship);
 		// prints the ship to the given stream
-		friend std::ostream& operator<<(std::ostream& os, const Ship* ship);
+		friend std::ostream& operator<<(std::ostream& os, const ship* ship);
 	};
 }
 

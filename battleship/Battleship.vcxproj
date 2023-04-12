@@ -19,23 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Ai.cpp" />
-    <ClCompile Include="src\BasePlayer.cpp" />
-    <ClCompile Include="src\Exception.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Ship.cpp" />
-    <ClCompile Include="src\Square.cpp" />
+    <ClInclude Include="include\ai.h" />
+    <ClInclude Include="include\base_player.h" />
+    <ClInclude Include="include\exception.h" />
+    <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\player.h" />
+    <ClInclude Include="include\ship.h" />
+    <ClInclude Include="include\square.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Ai.h" />
-    <ClInclude Include="include\BasePlayer.h" />
-    <ClInclude Include="include\Exception.h" />
-    <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Ship.h" />
-    <ClInclude Include="include\Square.h" />
+    <ClCompile Include="src\ai.cpp" />
+    <ClCompile Include="src\base_player.cpp" />
+    <ClCompile Include="src\exception.cpp" />
+    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\ship.cpp" />
+    <ClCompile Include="src\square.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

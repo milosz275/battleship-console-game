@@ -3,17 +3,17 @@
 
 #include <iostream>
 
-namespace GameExceptions
+namespace game_exceptions
 {
-	class Exception : public std::runtime_error
+	class exception : public std::runtime_error
 	{
 		// the error code
 		int m_code;
 	public:
 		// initialises the error with its message
-		Exception(std::string error, int code = 0);
+		exception(std::string error, int code = 0);
 		// prints the exception to the given stream
-		friend std::ostream& operator<<(std::ostream& os, const Exception& exception);
+		friend std::ostream& operator<<(std::ostream& os, const exception& exception);
 	};
 }
 

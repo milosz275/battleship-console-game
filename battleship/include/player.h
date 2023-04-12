@@ -1,26 +1,26 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "include/BasePlayer.h"
+#include "include/base_player.h"
 #include <string>
 
-namespace Battleship
+namespace battleship
 {
-	class Player : public BasePlayer
+	class player : public base_player
 	{
 	public:
 		// creates a player of a given name
-		Player(std::string name);
+		player(std::string name);
 		// deletes the player
-		~Player();
+		~player();
 		// groups method calls, lets the player decide how to populate board: manually or automatically
 		void populate_board(void);
 		// lets the player set all the ship manually
 		void create_boats_populate_manually(void);
 		// sets the given ship on the board
-		void fill_board_manually(Ship& ship);
+		void fill_board_manually(ship& ship);
 		// lets the player make a move
-		bool move(BasePlayer& opponent);
+		bool move(base_player& opponent);
 	};
 }
 	

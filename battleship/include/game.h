@@ -8,28 +8,28 @@
 #include <iomanip>
 #include <list>
 #include <map>
-#include "include/Exception.h"
-#include "include/BasePlayer.h"
-#include "include/Player.h"
-#include "include/Ai.h"
+#include "include/exception.h"
+#include "include/base_player.h"
+#include "include/player.h"
+#include "include/ai.h"
 
-namespace Battleship
+namespace battleship
 {
-	class Game
+	class game
 	{
 		// flag indicating if the game is finished
 		bool m_finished_game;
 		// pointer to the first player
-		BasePlayer* m_player_1;
+		base_player* m_player_1;
 		// pointer to the second player
-		BasePlayer* m_player_2;
+		base_player* m_player_2;
 		// 
-		BasePlayer* m_current_player;
+		base_player* m_current_player;
 	public:
 		// creates game, calls the create_players method
-		Game();
+		game();
 		// deletes players
-		~Game();
+		~game();
 		//
 		void welcome_message(void);
 		// creates players and populates boards belonging to the players

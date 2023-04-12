@@ -10,11 +10,11 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		Battleship::Game* GG = new Battleship::Game();
+		battleship::game* GG = new battleship::game();
 		GG->play();
 		delete GG;
 	}
-	catch (GameExceptions::Exception& E)
+	catch (game_exceptions::exception& E)
 	{
 		std::cout << E << std::endl;
 	}

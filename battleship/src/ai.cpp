@@ -1,18 +1,18 @@
-#include "include/Ai.h"
+#include "include/ai.h"
 
-namespace Battleship
+namespace battleship
 {
-	Ai::Ai() : BasePlayer("Computer"), m_targeted(false), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1), m_hit_in_firing(0) {}
+	ai::ai() : base_player("Computer"), m_targeted(false), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1), m_hit_in_firing(0) {}
 
-	Ai::~Ai() {}
+	ai::~ai() {}
 
-	void Ai::populate_board(void)
+	void ai::populate_board(void)
 	{
 		std::cout << "populating board of " << m_player_name << std::endl;
 		create_boats_populate_auto();
 	}
 
-	bool Ai::move(BasePlayer& opponent)
+	bool ai::move(base_player& opponent)
 	{
 		std::cout << "move of the computer" << std::endl;
 		m_moves++;
@@ -56,7 +56,7 @@ namespace Battleship
 							y = m_y_first;
 						}
 						else
-							throw GameExceptions::Exception("Ai targeting error");
+							throw game_exceptions::exception("ai targeting error");
 					}
 					else if (m_hit_in_firing == 2) // second was hit, now hitting third
 					{
@@ -89,7 +89,7 @@ namespace Battleship
 									y = m_y_first - 1;
 								}
 								else
-									throw GameExceptions::Exception("Ai targeting error");
+									throw game_exceptions::exception("ai targeting error");
 							}
 						}
 						else if (m_y_first == m_y_second) // horizontally
@@ -121,11 +121,11 @@ namespace Battleship
 									y = m_y_first;
 								}
 								else
-									throw GameExceptions::Exception("Ai targeting error");
+									throw game_exceptions::exception("ai targeting error");
 							}
 						}
 						else
-							throw GameExceptions::Exception("Ai targeting error");
+							throw game_exceptions::exception("ai targeting error");
 					}
 					else if (m_hit_in_firing >= 3)
 					{
@@ -149,7 +149,7 @@ namespace Battleship
 										y = m_y_first - 1;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 								else // m_y_prev < m_y_second (has changed direction)
 								{
@@ -160,7 +160,7 @@ namespace Battleship
 										y = m_y_prev - 1;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 							}
 							else // m_y_second < m_y_first (downwards)
@@ -180,7 +180,7 @@ namespace Battleship
 										y = m_y_first + 1;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 								else // m_y_prev > m_y_second (has changed direction)
 								{
@@ -191,7 +191,7 @@ namespace Battleship
 										y = m_y_prev + 1;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 
 								if (m_y_second - 1 >= 0 && !((*opponent.get_board())[m_y_second - 1][m_x_first].check_if_hit()))
@@ -222,7 +222,7 @@ namespace Battleship
 										y = m_y_first;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 								else // m_y_prev < m_y_second (has changed direction)
 								{
@@ -233,7 +233,7 @@ namespace Battleship
 										y = m_y_first;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 							}
 							else // m_x_second < m_x_first (downwards)
@@ -253,7 +253,7 @@ namespace Battleship
 										y = m_y_first;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 								else // m_y_prev > m_y_second (has changed direction)
 								{
@@ -264,7 +264,7 @@ namespace Battleship
 										y = m_y_first;
 									}
 									else
-										throw GameExceptions::Exception("Ai targeting error");
+										throw game_exceptions::exception("ai targeting error");
 								}
 
 								if (m_x_second - 1 >= 0 && !((*opponent.get_board())[m_y_first][m_x_second - 1].check_if_hit()))
@@ -276,10 +276,10 @@ namespace Battleship
 							}
 						}
 						else
-							throw GameExceptions::Exception("Ai targeting error");
+							throw game_exceptions::exception("ai targeting error");
 					}
 					else // hit in firing > 2
-						throw GameExceptions::Exception("Ai targeting error");
+						throw game_exceptions::exception("ai targeting error");
 				}
 				else // random hit, not m_targeted
 				{
@@ -296,13 +296,13 @@ namespace Battleship
 			std::cout << "Computer shot at: " << (char)std::toupper((int)coords_inv[x + 1]) << y + 1 << std::endl;
 
 			// sets the hit flag on a target square
-			(*opponent.get_board())[y][x].setHit();
+			(*opponent.get_board())[y][x].set_hit();
 
 			// check and hit
 			if ((*opponent.get_board())[y][x].check_if_contains_ship())
 			{
 				std::cout << "hit!" << std::endl;
-				Ship* returned_ship = (*opponent.get_board())[y][x].getShip();
+				ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
 				opponent.hit_ship(returned_ship);
 				m_targeted = true;
 				m_hit_in_firing++;
@@ -325,9 +325,9 @@ namespace Battleship
 				}
 
 				// sunken ship
-				if (returned_ship->getHits() == returned_ship->getSize())
+				if (returned_ship->get_hits() == returned_ship->get_size())
 				{
-					std::cout << returned_ship->getName() << " was sunken!" << std::endl;
+					std::cout << returned_ship->get_name() << " was sunken!" << std::endl;
 					this->operator++();
 					m_targeted = false;
 					m_hit_in_firing = 0;

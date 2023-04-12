@@ -1,12 +1,12 @@
-#include "include/Player.h"
+#include "include/player.h"
 
-namespace Battleship
+namespace battleship
 {
-	Player::Player(std::string n) : BasePlayer(n) {}
+	player::player(std::string n) : base_player(n) {}
 
-	Player::~Player() {}
+	player::~player() {}
 
-	void Player::populate_board(void)
+	void player::populate_board(void)
 	{
 		std::cout << "populating board of " << m_player_name << std::endl;
 		std::cout << "manually or auto? ";
@@ -18,28 +18,28 @@ namespace Battleship
 		else if (answer == "auto" || answer == "automatical" || answer == "automatically" || answer == "2")
 			create_boats_populate_auto();
 		else
-			throw GameExceptions::Exception("Wrong method of populating board supplied: " + answer);
+			throw game_exceptions::exception("Wrong method of populating board supplied: " + answer);
 	}
 
-	void Player::fill_board_manually(Ship& ship)
+	void player::fill_board_manually(ship& ship)
 	{
 		bool occupied = true;
 		int x;
 		int y;
 		bool horizontal;
-		int size = ship.getSize();
+		int size = ship.get_size();
 		while (occupied)
 		{
 			print_board();
-			std::cout << "setting: " << ship.getName() << "; size: " << ship.getSize() << std::endl;
+			std::cout << "setting: " << ship.get_name() << "; size: " << ship.get_size() << std::endl;
 			std::cout << "give the starting x coordinate: ";
 			std::cin >> x;
 			if (x < 1 || x > 10)
-				throw GameExceptions::Exception("Wrong x coordinate supplied: " + std::to_string(x));
+				throw game_exceptions::exception("Wrong x coordinate supplied: " + std::to_string(x));
 			std::cout << "give the starting y coordinate: ";
 			std::cin >> y;
 			if (y < 1 || y > 10)
-				throw GameExceptions::Exception("Wrong y coordinate supplied: " + std::to_string(y));
+				throw game_exceptions::exception("Wrong y coordinate supplied: " + std::to_string(y));
 
 			// coordinates translation
 			--x, --y;
@@ -53,19 +53,19 @@ namespace Battleship
 			else if (answer == "v" || answer == "vert" || answer == "vertical" || answer == "horizontally" || answer == "2")
 				horizontal = false;
 			else
-				throw GameExceptions::Exception("Wrong orientation supplied: " + answer);
+				throw game_exceptions::exception("Wrong orientation supplied: " + answer);
 
-			occupied = check_neighbourhood(x, y, ship.getSize(), horizontal);
+			occupied = check_neighbourhood(x, y, ship.get_size(), horizontal);
 			if (occupied)
 				std::cout << "supplied coordinates colide with another ship" << std::endl;
 		}
 		insert_boat(ship, x, y, horizontal);
 	}
 
-	void Player::create_boats_populate_manually(void)
+	void player::create_boats_populate_manually(void)
 	{
 		// create ship
-		Ship Destroyer(2, "Destroyer"),
+		ship Destroyer(2, "Destroyer"),
 			Submarine(3, "Submarine"),
 			Cruiser(3, "Cruiser"),
 			Battleship(4, "Battleship"),
@@ -78,7 +78,7 @@ namespace Battleship
 		fill_board_manually(Destroyer);
 	}
 
-	bool Player::move(BasePlayer& opponent)
+	bool player::move(base_player& opponent)
 	{
 		m_moves++;
 		while (m_combo)
@@ -137,20 +137,20 @@ namespace Battleship
 			}
 
 			// sets the hit flag on a target square
-			(*opponent.get_board())[y][x].setHit();
+			(*opponent.get_board())[y][x].set_hit();
 
 			// check and hit
 			if ((*opponent.get_board())[y][x].check_if_contains_ship())
 			{
 				// hit
 				std::cout << "hit!" << std::endl;
-				Ship* returned_ship = (*opponent.get_board())[y][x].getShip();
+				ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
 				opponent.hit_ship(returned_ship);
 
 				// sunken ship
-				if (returned_ship->getHits() == returned_ship->getSize())
+				if (returned_ship->get_hits() == returned_ship->get_size())
 				{
-					std::cout << returned_ship->getName() << " was sunken!" << std::endl;
+					std::cout << returned_ship->get_name() << " was sunken!" << std::endl;
 					this->operator++();
 
 					// end of the game

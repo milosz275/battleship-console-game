@@ -1,4 +1,6 @@
 #include "include/game.h"
+//#define DEBUG
+
 // todo:
 // save gamestate
 // normal dist for shots
@@ -87,7 +89,10 @@ namespace battleship
 		m_current_player = m_player_1;
 		while (!m_finished_game)
 		{
+			#ifndef DEBUG
 			clear_screen();
+			#endif // !DEBUG
+
 			m_os << "Player move: " << m_current_player->get_name() << std::endl;
 			m_finished_game = m_current_player->move(*m_current_player->get_next_player());
 			m_os << "Press enter to continue: ";

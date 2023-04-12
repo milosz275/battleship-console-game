@@ -3,6 +3,7 @@
 // save gamestate
 // normal dist for shots
 // simulate ai game
+// stats in txt
 
 namespace battleship
 {
@@ -10,17 +11,17 @@ namespace battleship
 
 	game::~game() { delete m_player_1, m_player_2; };
 
-	void game::welcome_message(void) { std::cout << "Welcome to the Battleship game!" << std::endl; }
+	void game::welcome_message(std::ostream& os) { m_os << "Welcome to the Battleship game!" << std::endl; }
 
 	void game::create_players(void)
 	{
 		std::string name;
-		std::cout << "give the name of the first player: ";
-		std::getline(std::cin, name);
+		m_os << "give the name of the first player: ";
+		std::getline(m_is, name);
 		m_player_1 = new player(name);
-		std::cout << "Do you want to play against another player or a computer? ";
+		m_os << "Do you want to play against another player or a computer? ";
 		std::string answer;
-		std::getline(std::cin, answer);
+		std::getline(m_is, answer);
 		transform(answer.begin(), answer.end(), answer.begin(), tolower);
 
 		while (1)
@@ -28,8 +29,8 @@ namespace battleship
 			if (answer == "1" || answer == "player" || answer == "person" || answer == "friend")
 			{
 				name.erase();
-				std::cout << "give the name of the second player: ";
-				std::getline(std::cin, name);
+				m_os << "give the name of the second player: ";
+				std::getline(m_is, name);
 				m_player_2 = new player(name);
 				break;
 			}
@@ -38,15 +39,19 @@ namespace battleship
 				m_player_2 = new ai();
 				break;
 			}
-			std::cout << "Wrong opponent supplied: " << answer << std::endl;
-			std::cout << "Try again: ";
-			std::getline(std::cin, answer);
+			m_os << "Wrong opponent supplied: " << answer << std::endl;
+			m_os << "Try again: ";
+			std::getline(m_is, answer);
 			transform(answer.begin(), answer.end(), answer.begin(), tolower);
 		}
 
 		// fill the boards with ship
 		m_player_1->populate_board();
 		m_player_2->populate_board();
+
+		// add remaining ship to the opponent
+		m_player_1->add_ship_to_opponent(*m_player_2);
+		m_player_2->add_ship_to_opponent(*m_player_1);
 
 		// create loop
 		m_player_1->set_next_player(m_player_2);
@@ -75,7 +80,7 @@ namespace battleship
 	{
 		if (m_player_1 == NULL || m_player_2 == NULL)
 		{
-			std::cout << "Players were not created" << std::endl;
+			m_os << "Players were not created" << std::endl;
 			return;
 		}
 
@@ -83,9 +88,9 @@ namespace battleship
 		while (!m_finished_game)
 		{
 			clear_screen();
-			std::cout << "Player move: " << m_current_player->get_name() << std::endl;
+			m_os << "Player move: " << m_current_player->get_name() << std::endl;
 			m_finished_game = m_current_player->move(*m_current_player->get_next_player());
-			std::cout << "Press enter to continue: ";
+			m_os << "Press enter to continue: ";
 			int tmp = getchar();
 			switch_turn();
 		}

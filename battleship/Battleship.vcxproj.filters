@@ -36,6 +36,9 @@
     <ClInclude Include="include\square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\normal_number_gen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ai.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\normal_number_gen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

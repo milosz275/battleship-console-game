@@ -25,7 +25,7 @@ namespace battleship
 		// size of the board: number of rows and columns
 		const int m_board_size = 10;
 		// board belonging to the player
-		std::vector<std::vector<Square>>* m_board;
+		std::vector<std::vector<square>>* m_board;
 		// name of the player
 		std::string m_player_name;
 		// indicates if a player has a right to strike multiple times. start with true to allow the first move
@@ -34,15 +34,19 @@ namespace battleship
 		int m_kills;
 		// list of own ship
 		std::list<ship*>* m_ship_list;
-		// moves count, may be used to evaluate ai's efficiency
-		int m_moves;
-		//
+		// list of opponent's ship
+		std::list<ship*>* m_opponent_ship_list;
+		// pointer to the next player
 		base_player* m_next_player;
+		// default output stream
+		std::ostream& m_os = std::cout;
+		// default input stream
+		std::istream& m_is = std::cin;
 	private:
 		// allocates the board
 		void create_board(void);
 	public:
-		// creates a base class of a player: Player or Ai
+		// creates a base class of a player: player or ai
 		base_player(std::string player_name);
 		// deletes a player
 		virtual ~base_player();
@@ -50,13 +54,13 @@ namespace battleship
 		virtual void populate_board(void) = 0;
 		// returns true, if the last ship was sunken
 		virtual bool move(base_player& opponent) = 0;
-		//
+		// sets the pointer to the next player
 		base_player* set_next_player(base_player* next_player);
-		//
+		// returns pointer to the next player
 		base_player* get_next_player(void);
 		// returns kill count
 		int get_kills(void);
-		//
+		// returns player name
 		std::string get_name(void);
 		// sets the combo flag to allow making a move
 		void set_combo(void);
@@ -72,6 +76,8 @@ namespace battleship
 		void fill_board_auto(ship& s);
 		// generates all ship, populates the board with them automatically
 		void create_boats_populate_auto(void);
+		// adds created ship to the opponent, like after successful reconnaissance
+		void add_ship_to_opponent(base_player& opponent);
 		// prints the board to given stream
 		void print_board(std::ostream& os = std::cout);
 		// prints the board to given stream

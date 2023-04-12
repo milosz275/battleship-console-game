@@ -23,15 +23,19 @@ namespace battleship
 		base_player* m_player_1;
 		// pointer to the second player
 		base_player* m_player_2;
-		// 
+		// pointer to the player making move at the moment
 		base_player* m_current_player;
+		// default output stream
+		std::ostream& m_os = std::cout;
+		// default input stream
+		std::istream& m_is = std::cin;
 	public:
 		// creates game, calls the create_players method
 		game();
 		// deletes players
 		~game();
-		//
-		void welcome_message(void);
+		// prints welcome message
+		void welcome_message(std::ostream& os = std::cout);
 		// creates players and populates boards belonging to the players
 		void create_players(void);
 		//

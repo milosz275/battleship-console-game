@@ -17,6 +17,10 @@ namespace battleship
 		bool m_targeted;
 		// count of hits in current targeting
 		int m_hit_in_firing;
+		// moves count, used to evaluate ai's efficiency - only before targeting
+		int m_moves;
+		// moves count, used to evaluate ai's efficiency - all
+		int m_all_moves;
 		// x coordinate of previous hit
 		int m_x_prev;
 		// y coordinate of previous hit

@@ -4,7 +4,7 @@
 
 namespace battleship
 {
-	base_player::base_player(std::string n) : m_board(NULL), m_player_name(n), m_combo(true), m_kills(0), m_ship_list(NULL), m_moves(0) { create_board(); }
+	base_player::base_player(std::string n) : m_board(NULL), m_player_name(n), m_combo(true), m_kills(0), m_ship_list(NULL) { create_board(); }
 
 	base_player::~base_player() { delete m_board, m_ship_list; }
 
@@ -74,7 +74,7 @@ namespace battleship
 		if (m_ship_list == NULL)
 			throw game_exceptions::exception("ship list is empty");
 		copy(m_ship_list->begin(), m_ship_list->end(), std::ostream_iterator<ship*>(os << "m_ship_list" << std::endl << " |", " |"));
-		std::cout << std::endl;
+		os << std::endl;
 	}
 
 	void base_player::hit_ship(ship* s)
@@ -166,5 +166,15 @@ namespace battleship
 		m_ship_list->push_back(Battleship);
 		m_ship_list->push_back(Carrier);
 		for_each(m_ship_list->begin(), m_ship_list->end(), [this](ship* s) { fill_board_auto(*s); });
+	}
+
+	void base_player::add_ship_to_opponent(base_player& opponent)
+	{
+		assert(opponent.m_opponent_ship_list == NULL);
+		assert(m_ship_list != NULL);
+
+		opponent.m_opponent_ship_list = new std::list<ship*>;
+
+		for_each(m_ship_list->begin(), m_ship_list->end(), [&opponent](ship* s) { opponent.m_opponent_ship_list->push_back(new ship(s->get_size(), s->get_name())); });
 	}
 }

@@ -8,10 +8,10 @@ namespace battleship
 
 	void player::populate_board(void)
 	{
-		std::cout << "populating board of " << m_player_name << std::endl;
-		std::cout << "manually or auto? ";
+		m_os << "populating board of " << m_player_name << std::endl;
+		m_os << "manually or auto? ";
 		std::string answer;
-		std::getline(std::cin, answer);
+		std::getline(m_is, answer);
 		transform(answer.begin(), answer.end(), answer.begin(), tolower);
 		if (answer == "manually" || answer == "man" || answer == "1")
 			create_boats_populate_manually();
@@ -19,6 +19,8 @@ namespace battleship
 			create_boats_populate_auto();
 		else
 			throw game_exceptions::exception("Wrong method of populating board supplied: " + answer);
+
+		// todo: add created ship to the opponent's list: ship to sink
 	}
 
 	void player::fill_board_manually(ship& ship)
@@ -31,13 +33,13 @@ namespace battleship
 		while (occupied)
 		{
 			print_board();
-			std::cout << "setting: " << ship.get_name() << "; size: " << ship.get_size() << std::endl;
-			std::cout << "give the starting x coordinate: ";
-			std::cin >> x;
+			m_os << "setting: " << ship.get_name() << "; size: " << ship.get_size() << std::endl;
+			m_os << "give the starting x coordinate: ";
+			m_is >> x;
 			if (x < 1 || x > 10)
 				throw game_exceptions::exception("Wrong x coordinate supplied: " + std::to_string(x));
-			std::cout << "give the starting y coordinate: ";
-			std::cin >> y;
+			m_os << "give the starting y coordinate: ";
+			m_is >> y;
 			if (y < 1 || y > 10)
 				throw game_exceptions::exception("Wrong y coordinate supplied: " + std::to_string(y));
 
@@ -46,8 +48,8 @@ namespace battleship
 
 			// orientation choice
 			std::string answer;
-			std::cout << "should the ship be horizontal or vertical? ";
-			std::cin >> answer;
+			m_os << "should the ship be horizontal or vertical? ";
+			m_is >> answer;
 			if (answer == "h" || answer == "hor" || answer == "horizontal" || answer == "horizontally" || answer == "1")
 				horizontal = true;
 			else if (answer == "v" || answer == "vert" || answer == "vertical" || answer == "horizontally" || answer == "2")
@@ -57,7 +59,7 @@ namespace battleship
 
 			occupied = check_neighbourhood(x, y, ship.get_size(), horizontal);
 			if (occupied)
-				std::cout << "supplied coordinates colide with another ship" << std::endl;
+				m_os << "supplied coordinates colide with another ship" << std::endl;
 		}
 		insert_boat(ship, x, y, horizontal);
 	}
@@ -80,12 +82,11 @@ namespace battleship
 
 	bool player::move(base_player& opponent)
 	{
-		m_moves++;
 		while (m_combo)
 		{
-			std::cout << "Your board:" << std::endl;
+			m_os << "Your board:" << std::endl;
 			print_board();
-			std::cout << "Your opponents' board:" << std::endl;
+			m_os << "Your opponents' board:" << std::endl;
 			opponent.print_board_discreetly();
 
 			//cout << "move of a player" << endl;
@@ -97,11 +98,11 @@ namespace battleship
 			{
 				// coordinates
 				std::string coordinates;
-				std::cout << "Give coordinates of the shot (ex. A1): ";
-				std::getline(std::cin, coordinates);
+				m_os << "Give coordinates of the shot (ex. A1): ";
+				std::getline(m_is, coordinates);
 				if (coordinates.size() > 3 || coordinates.size() < 2)
 				{
-					std::cout << "Wrong coordinates length. Try again" << std::endl;
+					m_os << "Wrong coordinates length. Try again" << std::endl;
 					continue;
 				}
 
@@ -111,8 +112,8 @@ namespace battleship
 				int tmp = coords[first_sign];
 				if (tmp < 1 || tmp > 10)
 				{
-					std::cout << "Wrong first coordinates supplied: " << first_sign << std::endl;
-					std::cout << "Try again" << std::endl;
+					m_os << "Wrong first coordinates supplied: " << first_sign << std::endl;
+					m_os << "Try again" << std::endl;
 					continue;
 				}
 				x = tmp - 1;
@@ -123,15 +124,15 @@ namespace battleship
 				tmp = second_sign - '0';
 				if ((coordinates.size() == 3 && second_sign != '1') || (coordinates.size() == 2 && (tmp < 1 || tmp > 10)))
 				{
-					std::cout << "Wrong second coordinates supplied: " << second_sign << coordinates[2] << std::endl;
-					std::cout << "Try again" << std::endl;
+					m_os << "Wrong second coordinates supplied: " << second_sign << coordinates[2] << std::endl;
+					m_os << "Try again" << std::endl;
 					continue;
 				}
 				y = tmp - 1;
 
 				// if the hit flag is already set, repeat giving coordinates proccess
 				if ((*opponent.get_board())[y][x].check_if_hit())
-					std::cout << "That coordinates where already shot at. Try again" << std::endl;
+					m_os << "That coordinates where already shot at. Try again" << std::endl;
 				else
 					goodCoordinates = true;
 			}
@@ -143,29 +144,29 @@ namespace battleship
 			if ((*opponent.get_board())[y][x].check_if_contains_ship())
 			{
 				// hit
-				std::cout << "hit!" << std::endl;
+				m_os << "hit!" << std::endl;
 				ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
 				opponent.hit_ship(returned_ship);
 
 				// sunken ship
 				if (returned_ship->get_hits() == returned_ship->get_size())
 				{
-					std::cout << returned_ship->get_name() << " was sunken!" << std::endl;
+					m_os << returned_ship->get_name() << " was sunken!" << std::endl;
 					this->operator++();
 
 					// end of the game
 					if (get_kills() == 5)
 					{
-						std::cout << m_player_name << " won!" << std::endl;
+						m_os << m_player_name << " won!" << std::endl;
 						return true;
 					}
 				}
 				m_combo = true;
-				std::cout << m_player_name << " hit a ship and have another move" << std::endl;
+				m_os << m_player_name << " hit a ship and have another move" << std::endl;
 			}
 			else
 			{
-				std::cout << "miss!" << std::endl;
+				m_os << "miss!" << std::endl;
 				m_combo = false;
 				opponent.set_combo();
 			}

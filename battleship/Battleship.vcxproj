@@ -23,6 +23,7 @@
     <ClInclude Include="include\base_player.h" />
     <ClInclude Include="include\exception.h" />
     <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\normal_number_gen.h" />
     <ClInclude Include="include\player.h" />
     <ClInclude Include="include\ship.h" />
     <ClInclude Include="include\square.h" />
@@ -33,6 +34,7 @@
     <ClCompile Include="src\exception.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\normal_number_gen.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\ship.cpp" />
     <ClCompile Include="src\square.cpp" />

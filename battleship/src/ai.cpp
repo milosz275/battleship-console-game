@@ -2,26 +2,22 @@
 
 namespace battleship
 {
-	ai::ai() : base_player("Computer"), m_targeted(false), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1), m_hit_in_firing(0) {}
+	ai::ai() : base_player("Computer"), m_targeted(false), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1),
+		m_hit_in_firing(0), m_all_moves(0), m_moves(0) {}
 
 	ai::~ai() {}
 
 	void ai::populate_board(void)
 	{
-		std::cout << "populating board of " << m_player_name << std::endl;
+		m_os << "populating board of " << m_player_name << std::endl;
 		create_boats_populate_auto();
 	}
 
 	bool ai::move(base_player& opponent)
 	{
-		std::cout << "move of the computer" << std::endl;
-		m_moves++;
 		while (m_combo)
 		{
-			std::cout << "Computer's board:" << std::endl;
-			print_board();
-			std::cout << "Your board:" << std::endl;
-			opponent.print_board_discreetly();
+			m_all_moves++;
 
 			//cout << "move of a player" << endl;
 			int x = -1;
@@ -30,7 +26,7 @@ namespace battleship
 			bool good_coordinates = false;
 			while (!good_coordinates)
 			{
-				// coordinates
+				// when target ship is being fired at
 				if (m_targeted)
 				{
 					if (m_hit_in_firing == 1) // first was hit, now hitting second
@@ -281,19 +277,22 @@ namespace battleship
 					else // hit in firing > 2
 						throw game_exceptions::exception("ai targeting error");
 				}
-				else // random hit, not m_targeted
+				else // random hit, ai doesn't know where ship are
 				{
-					// todo: smallest alive ship targeting
+					m_moves++;
+
+					// todo: smallest alive ship targeting !!!
 					x = rand() % 10;
 					y = rand() % 10;
 				}
+				// make sure chosen coords are valid
 				assert(x >= 0 && x < 10 && y >= 0 && y < 10);
 
 				// if the hit flag is already set, repeat giving coordinates proccess
 				if (!((*opponent.get_board())[y][x].check_if_hit()))
 					good_coordinates = true;
 			}
-			std::cout << "Computer shot at: " << (char)std::toupper((int)coords_inv[x + 1]) << y + 1 << std::endl;
+			m_os << "Computer shot at: " << (char)std::toupper((int)coords_inv[x + 1]) << y + 1 << std::endl;
 
 			// sets the hit flag on a target square
 			(*opponent.get_board())[y][x].set_hit();
@@ -301,7 +300,7 @@ namespace battleship
 			// check and hit
 			if ((*opponent.get_board())[y][x].check_if_contains_ship())
 			{
-				std::cout << "hit!" << std::endl;
+				m_os << "hit!" << std::endl;
 				ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
 				opponent.hit_ship(returned_ship);
 				m_targeted = true;
@@ -327,7 +326,7 @@ namespace battleship
 				// sunken ship
 				if (returned_ship->get_hits() == returned_ship->get_size())
 				{
-					std::cout << returned_ship->get_name() << " was sunken!" << std::endl;
+					m_os << returned_ship->get_name() << " was sunken!" << std::endl;
 					this->operator++();
 					m_targeted = false;
 					m_hit_in_firing = 0;
@@ -343,20 +342,27 @@ namespace battleship
 					// end of the game
 					if (get_kills() == 5)
 					{
-						std::cout << m_player_name << " won!" << std::endl;
+						m_os << m_player_name << " won!" << std::endl;
 						return true;
 					}
 				}
 				m_combo = true;
-				std::cout << m_player_name << " hit a ship and have another move" << std::endl;
+				m_os << m_player_name << " hit a ship and have another move" << std::endl;
 			}
 			else // miss
 			{
-				std::cout << "miss!" << std::endl;
+				m_os << "miss!" << std::endl;
 				m_combo = false;
 				opponent.set_combo();
 			}
 		}
+
+		// print the boards
+		m_os << "Computer's board:" << std::endl;
+		print_board_discreetly();
+		m_os << "Your board:" << std::endl;
+		opponent.print_board();
+
 		return false;
 	}
 }

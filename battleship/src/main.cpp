@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	}
 	catch (game_exceptions::exception& E)
 	{
-		std::cout << E << std::endl;
+		std::cerr << E << std::endl;
 	}
 	return 0;
 }

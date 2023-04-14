@@ -50,9 +50,9 @@ namespace battleship
 			std::string answer;
 			m_os << "should the ship be horizontal or vertical? ";
 			m_is >> answer;
-			if (answer == "h" || answer == "hor" || answer == "horizontal" || answer == "horizontally" || answer == "1")
+			if (answer == "1" || answer == "h" || answer == "hor" || answer == "horizontal" || answer == "horizontally")
 				horizontal = true;
-			else if (answer == "v" || answer == "vert" || answer == "vertical" || answer == "horizontally" || answer == "2")
+			else if (answer == "2" || answer == "v" || answer == "vert" || answer == "vertical" || answer == "horizontally")
 				horizontal = false;
 			else
 				throw game_exceptions::exception("Wrong orientation supplied: " + answer);

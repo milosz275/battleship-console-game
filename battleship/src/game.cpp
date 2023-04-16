@@ -112,6 +112,11 @@ namespace battleship
 			m_os << "Use create_players or load_game to initiaze the players" << std::endl;
 			return;
 		}
+		if (m_finished_game)
+		{
+			m_os << "Game is already finished" << std::endl;
+			return;
+		}
 
 		m_current_player = m_player_1;
 		while (!m_finished_game)

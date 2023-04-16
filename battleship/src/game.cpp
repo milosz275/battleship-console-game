@@ -1,5 +1,4 @@
 #include "include/game.h"
-//#define DEBUG
 
 // todo:
 // save gamestate
@@ -9,7 +8,7 @@
 
 namespace battleship
 {
-	game::game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); create_players(); };
+	game::game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); };
 
 	game::~game() { delete m_player_1, m_player_2; };
 
@@ -17,6 +16,8 @@ namespace battleship
 
 	void game::create_players(void)
 	{
+		assert(m_player_1 == NULL && m_player_2 == NULL);
+
 		std::string name;
 		m_os << "give the name of the first player: ";
 		std::getline(m_is, name);
@@ -60,6 +61,31 @@ namespace battleship
 		m_player_2->set_next_player(m_player_1);
 	}
 
+	void game::load_game(std::string file_name)
+	{
+		assert(m_player_1 == NULL && m_player_2 == NULL);
+
+		// load file with boards and moves
+		std::ifstream file;
+		file.open(file_name);
+		if (file.fail())
+			throw std::runtime_error("File was't opened");
+
+		// todo: initialize players with loaded boards
+
+		// save moves in a list
+		std::list<std::string> moves;
+
+		// prepare the game from the saved state
+		m_current_player = m_player_1;
+		while (!moves.empty() && !m_finished_game)
+		{
+			m_finished_game = m_current_player->move(*m_current_player->get_next_player(), moves);
+			switch_turn();
+		}
+
+	}
+
 	void game::switch_turn(void)
 	{
 		assert(m_player_1 != NULL && m_player_2 != NULL);
@@ -83,15 +109,16 @@ namespace battleship
 		if (m_player_1 == NULL || m_player_2 == NULL)
 		{
 			m_os << "Players were not created" << std::endl;
+			m_os << "Use create_players or load_game to initiaze the players" << std::endl;
 			return;
 		}
 
 		m_current_player = m_player_1;
 		while (!m_finished_game)
 		{
-			#ifndef DEBUG
+			#ifndef _DEBUG
 			clear_screen();
-			#endif // !DEBUG
+			#endif // !_DEBUG
 
 			m_os << "Player move: " << m_current_player->get_name() << std::endl;
 			m_finished_game = m_current_player->move(*m_current_player->get_next_player());

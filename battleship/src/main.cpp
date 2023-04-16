@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
 	try
 	{
 		battleship::game* GG = new battleship::game();
+		GG->create_players();
 		GG->play();
 		delete GG;
 	}

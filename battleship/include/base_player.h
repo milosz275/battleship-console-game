@@ -54,6 +54,8 @@ namespace battleship
 		virtual void populate_board(void) = 0;
 		// returns true, if the last ship was sunken
 		virtual bool move(base_player& opponent) = 0;
+		// makes a forced move, part of loading the game from file
+		bool move(base_player& opponent, std::list<std::string> move_list);
 		// sets the pointer to the next player
 		base_player* set_next_player(base_player* next_player);
 		// returns pointer to the next player

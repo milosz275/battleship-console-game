@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <list>
 #include <map>
+#include <fstream>
 #include "include/exception.h"
 #include "include/base_player.h"
 #include "include/player.h"
@@ -36,11 +37,13 @@ namespace battleship
 		~game();
 		// prints welcome message
 		void welcome_message(std::ostream& os = std::cout);
+		// switches the flag indicating player's turn
+		void switch_turn(void);
 		// creates players and populates boards belonging to the players
 		void create_players(void);
-		//
-		void switch_turn(void);
-		//
+		// loads the game from file of given name
+		void load_game(std::string file_name);
+		// clears the screen accordingly to operating system
 		void clear_screen(void);
 		// main game loop
 		void play(void);

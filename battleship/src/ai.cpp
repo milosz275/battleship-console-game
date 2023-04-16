@@ -2,8 +2,7 @@
 
 namespace battleship
 {
-	ai::ai() : base_player("Computer"), m_targeted(false), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1),
-		m_hit_in_firing(0), m_all_moves(0), m_moves(0) {}
+	ai::ai() : base_player("Computer"), m_targeted(false), m_hit_in_firing(0), m_moves(0), m_all_moves(0), m_x_prev(-1), m_y_prev(-1), m_x_first(-1), m_y_first(-1), m_x_second(-1), m_y_second(-1) {}
 
 	ai::~ai() {}
 
@@ -56,9 +55,9 @@ namespace battleship
 					}
 					else if (m_hit_in_firing == 2) // second was hit, now hitting third
 					{
+						bool found = false;
 						if (m_x_first == m_x_second) // vertically
 						{
-							bool found = false;
 							if (m_y_second > m_y_first)
 							{
 								if (!(m_y_second + 1 >= m_board_size) && !((*opponent.get_board())[m_y_second + 1][m_x_first].check_if_hit()))
@@ -90,7 +89,6 @@ namespace battleship
 						}
 						else if (m_y_first == m_y_second) // horizontally
 						{
-							bool found = false;
 							if (m_x_second > m_x_first)
 							{
 								if (!(m_x_second + 1 >= m_board_size) && !((*opponent.get_board())[m_y_first][m_x_second + 1].check_if_hit()))
@@ -122,12 +120,15 @@ namespace battleship
 						}
 						else
 							throw game_exceptions::exception("ai targeting error");
+
+						if (found)
+							;
 					}
 					else if (m_hit_in_firing >= 3)
 					{
+						bool found = false;
 						if (m_x_first == m_x_second) // vertically
 						{
-							bool found = false;
 							if (m_y_second > m_y_first)
 							{
 								if (m_y_prev > m_y_second)
@@ -200,7 +201,6 @@ namespace battleship
 						}
 						else if (m_y_first == m_y_second) // horizontally
 						{
-							bool found = false;
 							if (m_x_second > m_x_first)
 							{
 								if (m_x_prev > m_x_second)
@@ -273,6 +273,9 @@ namespace battleship
 						}
 						else
 							throw game_exceptions::exception("ai targeting error");
+
+						if (found)
+							;
 					}
 					else // hit in firing > 2
 						throw game_exceptions::exception("ai targeting error");

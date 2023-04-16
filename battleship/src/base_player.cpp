@@ -6,20 +6,20 @@ namespace battleship
 {
 	base_player::base_player(std::string n) : m_board(NULL), m_player_name(n), m_combo(true), m_kills(0), m_ship_list(NULL) { create_board(); }
 
-	base_player::~base_player() { delete m_board, m_ship_list; }
+	base_player::~base_player() { delete m_board; delete m_ship_list; }
 
 	void base_player::create_board(void)
 	{
 		if (m_board == NULL)
 			m_board = new std::vector<std::vector<square>>(m_board_size, std::vector<square>(m_board_size));
 		else
-			throw game_exceptions::exception("Attempted to overwrite the m_board");
+			throw game_exceptions::exception("Attempted to overwrite the game board");
 	};
 
 	void base_player::print_board(std::ostream& os) // todo: iomanip
 	{
 		if (m_board == NULL)
-			throw game_exceptions::exception("m_board is empty");
+			throw game_exceptions::exception("Game board is empty");
 		os << "\t ";
 		for (char c = 'A'; c < 'A' + m_board_size; ++c)
 			os << c << "  ";
@@ -34,7 +34,7 @@ namespace battleship
 	void base_player::print_board_discreetly(std::ostream& os) // todo: iomanip
 	{
 		if (m_board == NULL)
-			throw game_exceptions::exception("m_board is empty");
+			throw game_exceptions::exception("Game board is empty");
 		os << "\t ";
 		for (char c = 'A'; c < 'A' + m_board_size; ++c)
 			os << c << "  ";
@@ -48,7 +48,8 @@ namespace battleship
 						else if (s.check_if_hit())
 							os << "/";
 						else
-							os << "-"; os << " |";
+							os << "-";
+						os << " |";
 					});
 
 			});
@@ -72,7 +73,7 @@ namespace battleship
 	void base_player::print_ship(std::ostream& os)
 	{
 		if (m_ship_list == NULL)
-			throw game_exceptions::exception("ship list is empty");
+			throw game_exceptions::exception("Ship list is empty");
 		copy(m_ship_list->begin(), m_ship_list->end(), std::ostream_iterator<ship*>(os << "m_ship_list" << std::endl << " |", " |"));
 		os << std::endl;
 	}

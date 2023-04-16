@@ -29,7 +29,6 @@ namespace battleship
 		int x;
 		int y;
 		bool horizontal;
-		int size = ship.get_size();
 		while (occupied)
 		{
 			print_board();
@@ -96,6 +95,10 @@ namespace battleship
 			bool goodCoordinates = false;
 			while (!goodCoordinates)
 			{
+				// flush the buffer
+				std::cin.clear();
+				//std::cin.ignore(INT_MAX);
+
 				// coordinates
 				std::string coordinates;
 				m_os << "Give coordinates of the shot (ex. A1): ";

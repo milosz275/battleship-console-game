@@ -10,7 +10,7 @@ namespace battleship
 {
 	game::game() : m_finished_game(false), m_player_1(NULL), m_player_2(NULL), m_current_player(NULL) { srand((unsigned)time(NULL)); clear_screen(); welcome_message(); };
 
-	game::~game() { delete m_player_1, m_player_2; };
+	game::~game() { delete m_player_1; delete m_player_2; };
 
 	void game::welcome_message(std::ostream& os) { m_os << "Welcome to the Battleship game!" << std::endl; }
 
@@ -19,7 +19,7 @@ namespace battleship
 		assert(m_player_1 == NULL && m_player_2 == NULL);
 
 		std::string name;
-		m_os << "give the name of the first player: ";
+		m_os << "Give the name of the first player: ";
 		std::getline(m_is, name);
 		m_player_1 = new player(name);
 		m_os << "Do you want to play against another player or a computer? ";
@@ -32,7 +32,7 @@ namespace battleship
 			if (answer == "1" || answer == "player" || answer == "person" || answer == "friend")
 			{
 				name.erase();
-				m_os << "give the name of the second player: ";
+				m_os << "Give the name of the second player: ";
 				std::getline(m_is, name);
 				m_player_2 = new player(name);
 				break;
@@ -127,8 +127,7 @@ namespace battleship
 
 			m_os << "Player move: " << m_current_player->get_name() << std::endl;
 			m_finished_game = m_current_player->move(*m_current_player->get_next_player());
-			m_os << "Press enter to continue: ";
-			int tmp = getchar();
+			system("pause");
 			switch_turn();
 		}
 	}

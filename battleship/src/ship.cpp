@@ -2,6 +2,8 @@
 
 namespace battleship
 {
+	ship::ship(int size, std::string name) : m_size(size), m_hits(0), m_name(name) { assert(m_size > 0 && m_size <= 10); };
+
 	int ship::get_size(void) { return m_size; }
 
 	int ship::get_hits(void) { return m_hits; }
@@ -9,8 +11,6 @@ namespace battleship
 	const ship* ship::operator++() { m_hits++; return this; }
 
 	std::string ship::get_name(void) { return m_name; }
-
-	ship::ship(int size, std::string name) : m_name(name), m_hits(0) { assert(size > 0 && size <= 10); m_size = size; };
 
 	bool ship::operator==(const ship* ship) { return m_name == ship->m_name; }
 

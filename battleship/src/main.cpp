@@ -6,7 +6,7 @@
 // game throws errors when a bug occured
 // todo: sdl/opengl convertion, make debug fixes
 
-int main(int argc, char* argv[])
+int main(void)
 {
 	try
 	{

@@ -122,7 +122,7 @@ namespace battleship
 							throw game_exceptions::exception("ai targeting error");
 
 						if (found)
-							;
+							m_os << "";
 					}
 					else if (m_hit_in_firing >= 3)
 					{
@@ -275,7 +275,7 @@ namespace battleship
 							throw game_exceptions::exception("ai targeting error");
 
 						if (found)
-							;
+							m_os << "";
 					}
 					else // hit in firing > 2
 						throw game_exceptions::exception("ai targeting error");

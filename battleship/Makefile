@@ -1,9 +1,11 @@
 CC = g++
-CFLAGS = -g -Wall -Werror -std=c++20
+CFLAGS = -g -Wall -Werror -Wextra -pedantic -std=c++20
 INCLUDES = -I.
 
 SRC_DIR = src
 BUILD_DIR = build
+
+$(shell mkdir -p $(BUILD_DIR))
 
 OBJS = $(BUILD_DIR)/main.o $(BUILD_DIR)/game.o $(BUILD_DIR)/exception.o $(BUILD_DIR)/base_player.o $(BUILD_DIR)/player.o $(BUILD_DIR)/ai.o $(BUILD_DIR)/ship.o $(BUILD_DIR)/square.o
 

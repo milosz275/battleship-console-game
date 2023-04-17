@@ -181,95 +181,100 @@ namespace battleship
 
 	bool base_player::move(base_player& opponent, std::list<std::string> move_list)
 	{
-		while (m_combo)
-		{
-			m_os << "Your board:" << std::endl;
-			print_board();
-			m_os << "Your opponents' board:" << std::endl;
-			opponent.print_board_discreetly();
+		// tmp
+		opponent.get_kills();
+		if (move_list.empty())
+			m_os << "";
+		//while (m_combo)
+		//{
+		//	m_os << "Your board:" << std::endl;
+		//	print_board();
+		//	m_os << "Your opponents' board:" << std::endl;
+		//	opponent.print_board_discreetly();
 
-			//cout << "move of a player" << endl;
-			int x = -1;
-			int y = -1;
+		//	//cout << "move of a player" << endl;
+		//	int x = -1;
+		//	int y = -1;
 
-			bool goodCoordinates = false;
-			while (!goodCoordinates)
-			{
-				// coordinates
-				std::string coordinates;
-				m_os << "Give coordinates of the shot (ex. A1): ";
-				std::getline(m_is, coordinates);
-				if (coordinates.size() > 3 || coordinates.size() < 2)
-				{
-					m_os << "Wrong coordinates length. Try again" << std::endl;
-					continue;
-				}
+		//	bool goodCoordinates = false;
+		//	while (!goodCoordinates)
+		//	{
+		//		// coordinates
+		//		std::string coordinates;
+		//		m_os << "Give coordinates of the shot (ex. A1): ";
+		//		std::getline(m_is, coordinates);
+		//		if (coordinates.size() > 3 || coordinates.size() < 2)
+		//		{
+		//			m_os << "Wrong coordinates length. Try again" << std::endl;
+		//			continue;
+		//		}
 
-				// getting first coordinate
-				transform(coordinates.begin(), coordinates.end(), coordinates.begin(), tolower);
-				char first_sign = coordinates[0];
-				int tmp = coords[first_sign];
-				if (tmp < 1 || tmp > 10)
-				{
-					m_os << "Wrong first coordinates supplied: " << first_sign << std::endl;
-					m_os << "Try again" << std::endl;
-					continue;
-				}
-				x = tmp - 1;
+		//		// getting first coordinate
+		//		transform(coordinates.begin(), coordinates.end(), coordinates.begin(), tolower);
+		//		char first_sign = coordinates[0];
+		//		int tmp = coords[first_sign];
+		//		if (tmp < 1 || tmp > 10)
+		//		{
+		//			m_os << "Wrong first coordinates supplied: " << first_sign << std::endl;
+		//			m_os << "Try again" << std::endl;
+		//			continue;
+		//		}
+		//		x = tmp - 1;
 
-				// getting second coordinate
-				// todo: repair 10 field. for example A10
-				char second_sign = coordinates[1];
-				tmp = second_sign - '0';
-				if ((coordinates.size() == 3 && second_sign != '1') || (coordinates.size() == 2 && (tmp < 1 || tmp > 10)))
-				{
-					m_os << "Wrong second coordinates supplied: " << second_sign << coordinates[2] << std::endl;
-					m_os << "Try again" << std::endl;
-					continue;
-				}
-				y = tmp - 1;
+		//		// getting second coordinate
+		//		// todo: repair 10 field. for example A10
+		//		char second_sign = coordinates[1];
+		//		tmp = second_sign - '0';
+		//		if ((coordinates.size() == 3 && second_sign != '1') || (coordinates.size() == 2 && (tmp < 1 || tmp > 10)))
+		//		{
+		//			m_os << "Wrong second coordinates supplied: " << second_sign << coordinates[2] << std::endl;
+		//			m_os << "Try again" << std::endl;
+		//			continue;
+		//		}
+		//		y = tmp - 1;
 
-				// if the hit flag is already set, repeat giving coordinates proccess
-				if ((*opponent.get_board())[y][x].check_if_hit())
-					m_os << "That coordinates where already shot at. Try again" << std::endl;
-				else
-					goodCoordinates = true;
-			}
+		//		// if the hit flag is already set, repeat giving coordinates proccess
+		//		if ((*opponent.get_board())[y][x].check_if_hit())
+		//			m_os << "That coordinates where already shot at. Try again" << std::endl;
+		//		else
+		//			goodCoordinates = true;
+		//	}
 
-			// sets the hit flag on a target square
-			(*opponent.get_board())[y][x].set_hit();
+		//	// sets the hit flag on a target square
+		//	(*opponent.get_board())[y][x].set_hit();
 
-			// check and hit
-			if ((*opponent.get_board())[y][x].check_if_contains_ship())
-			{
-				// hit
-				m_os << "hit!" << std::endl;
-				ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
-				opponent.hit_ship(returned_ship);
+		//	// check and hit
+		//	if ((*opponent.get_board())[y][x].check_if_contains_ship())
+		//	{
+		//		// hit
+		//		m_os << "hit!" << std::endl;
+		//		ship* returned_ship = (*opponent.get_board())[y][x].get_ship();
+		//		opponent.hit_ship(returned_ship);
 
-				// sunken ship
-				if (returned_ship->get_hits() == returned_ship->get_size())
-				{
-					m_os << returned_ship->get_name() << " was sunken!" << std::endl;
-					this->operator++();
+		//		// sunken ship
+		//		if (returned_ship->get_hits() == returned_ship->get_size())
+		//		{
+		//			m_os << returned_ship->get_name() << " was sunken!" << std::endl;
+		//			this->operator++();
 
-					// end of the game
-					if (get_kills() == 5)
-					{
-						m_os << m_player_name << " won!" << std::endl;
-						return true;
-					}
-				}
-				m_combo = true;
-				m_os << m_player_name << " hit a ship and have another move" << std::endl;
-			}
-			else
-			{
-				m_os << "miss!" << std::endl;
-				m_combo = false;
-				opponent.set_combo();
-			}
-		}
-		return false;
+		//			// end of the game
+		//			if (get_kills() == 5)
+		//			{
+		//				m_os << m_player_name << " won!" << std::endl;
+		//				return true;
+		//			}
+		//		}
+		//		m_combo = true;
+		//		m_os << m_player_name << " hit a ship and have another move" << std::endl;
+		//	}
+		//	else
+		//	{
+		//		m_os << "miss!" << std::endl;
+		//		m_combo = false;
+		//		opponent.set_combo();
+		//	}
+		//}
+		//return false;
+		return true;
 	}
 }

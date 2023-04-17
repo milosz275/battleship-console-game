@@ -12,7 +12,7 @@ namespace battleship
 
 	game::~game() { delete m_player_1; delete m_player_2; };
 
-	void game::welcome_message(std::ostream& os) { m_os << "Welcome to the Battleship game!" << std::endl; }
+	void game::welcome_message(std::ostream& os) { os << "Welcome to the Battleship game!" << std::endl; }
 
 	void game::create_players(void)
 	{
